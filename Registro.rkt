@@ -1,5 +1,7 @@
 #lang racket
 (provide (all-defined-out))
+(require "fecha.rkt")
+
 ;okay empezemos...
 ;primero una funcion para ver si cumple que es un doc de paradigmas xd
 (define (Paradoc? Paradoc)
@@ -120,25 +122,4 @@
   (car (cdr user))
   )
 
-
-;---------------------------------------------------------------------------------------------------
-;tda fecha?
-; Función que crea una lista de fecha.
-; Dominio: number x number x number. 
-; Recorrido: list.
-(define (date dd mm aa)
-  (list dd mm aa)
-  )
-
-(define (date->day date)
-  (car date)
-  )
-
-(define (date->month date)
-  (cadr date)
-  )
-
-(define (date->year date)
-  (caddr date)
-  )
 
