@@ -16,3 +16,7 @@ ya registrado.
 (define user2 (register user1 (date 01 12 2018) "Damian" "1a2b3e" ))
 (define user3 (register user2 (date 16 10 2003) "Cami" "ascv34" ))
 (define user4 (register user3 (date 20 04 2029) "Juan" "er3av" ))
+******************************************************************
+CREAR
+*
+(define login1 (((login user1 "Pipe" "123asd" Crear)(date 10 12 2009))"nuevoDoc" "primera linea" ))
