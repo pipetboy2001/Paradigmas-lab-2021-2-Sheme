@@ -20,3 +20,5 @@ ya registrado.
 CREAR
 *
 (define login1 (((login user1 "Pipe" "123asd" Crear)(date 10 12 2009))"nuevoDoc" "primera linea" ))
+*
+(define login1 (((login user1 "Pipe" "123asd" UsarDoc)(date 10 12 2009))"nuevoDoc" "primera linea" ))
