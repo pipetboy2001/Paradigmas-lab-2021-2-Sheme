@@ -60,6 +60,37 @@
 ;ejemplo (login Paradoc “user” “pass” create) (date 30 10 2020) “doc1” “este es mi primer documento”) 
 (define(UsarDoc doc)(Crear doc))
 ;--------------------------------------------------------------------------------------------------
+;---share---
+;Función que permite compartir un documento con otros usuarios especificando el tipo de acceso a éste (lectura, escritura, comentarios). El retorno final de la función es una versión actualizada de paradigmadocs donde se registra el tipo de acceso otorgado a cada usuario y se elimina la sesión activa del usuario en paradigmadocs.
+;dom paradigmadocs X int X access List)
+;rec paradigmadocs
+;(share paradigmadocs idDoc access . accesses)
+(define (share doc) ;comprtir el doc
+  (lambda (idCreate) ; lamda id
+    (lambda (access)
+      (lambda (create . numCreate) ;labda numero creado
+           (if (and (number? idCreate)) ;id es un numero?
+           ((lambda (currentCreate) 
+              (actualParadoc(endSesion)(Paradoc->users doc));compartido
+            ))
+           (endParadoc (endSesion) (cdr doc)) ;finalizar
+           )
+        ;y si no
+        (endParadoc (endSesion) (cdr doc));finalizar
+       ))))
+;finalizar y mandar a otro doc
+(define (endParadoc end-SesionError otherDoc)
+  (list end-SesionError otherDoc)
+  )
+;acces
+(define (access user accion)
+  (if accion = "r") ; posible funcion string?
+  Paradoc->users accion
+  (if accion = "w")
+  Paradoc->users accion ;podria meter funcion create?
+  (if accion = "c")
+  Paradoc->users user ;posible funcion comment a futuro?
+  )
 ;funcion de prueba para hacer pruebas del funcionamiento...
 (define (doble x)
    (* x 2))
