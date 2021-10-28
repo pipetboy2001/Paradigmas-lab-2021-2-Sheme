@@ -26,3 +26,7 @@ CREAR
 SHARE
 
 * (define Share1 (((login user1 "Pipe" "123asd" share)2 )(access "felipe" "r") ))
+
+ADD
+*(define comment1 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"gracias por responder" ))
+-recordatorio para pipe en una parte haces el ID +1 AND y añades , para el de eleminar debes hacer el contrario 

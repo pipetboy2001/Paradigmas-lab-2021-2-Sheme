@@ -26,15 +26,9 @@
           (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
               (if (not (userExist (Paradoc->users doc) username password)) ;si el nombre no es igual a la contraseña
                   (actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
-                  (userdoc (Paradoc->users doc) (newUser username password 0))) ;añadir al usuario
+                  (userdoc (Paradoc->users doc) (newUser username password 0))) ;añadir al usuario ;el 0 sera por el add
                   ;los else aqui abajo xd
-                  doc)
-          ;en caso que no
-          doc)
-       ;en caso que no fuera
-       )
-      ;en caso que no doc
-      doc)
+                  doc)doc))doc)
 
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ;---login---
@@ -48,7 +42,7 @@
           (action (actualParadoc (newUser username password (user->caddr (userExist (Paradoc->users doc) username password))) ;aplicar accion en una nueva lista 
                            ;funciones...
                            (Paradoc->Create doc) )) ; crear doc     
-          (action doc)
+          (action doc) ;aplicar funcion
   )
  )
 
@@ -91,6 +85,127 @@
   (if accion = "c")
   Paradoc->users user ;posible funcion comment a futuro?
   )
+;(char<? #\r)
+;(char<? #\w)
+;(char<? #\c)
+
+;ADD:Función que permite añadir texto al final de la versión actual/activa del documento. La última versión del documento producto de cualquier cambio a través de esta función pasa a ser la versión activa. 
+;Dom:paradigmadocs X int X date X String
+;REC:paradigmadocs
+
+
+(define (Add doc)
+  (lambda (AddDate)
+    (lambda (idDoc)
+      (lambda (Add . userList)
+        (if (sesion? doc)
+          (if (and (date? AddDate) (and (number? idDoc) (> idDoc 0))
+                   (string? Add) )
+           ((lambda (currentDoc) 
+              (actualParadoc
+                 (endSesion)
+                 (Paradoc->users doc)
+                 (DocAct   (Paradoc->Doc doc) (Doc->id currentDoc) (Doc->author currentDoc)
+                                ;(likes->a (post->likes currentDoc)) (likes->f (post->likes currentDoc))
+                                   ;(Doc->userList currentDoc) (date->dateDoc (Doc->dates currentDoc))
+                                   AddDate
+                                   ;(post->follow currentDoc)
+                                   (+ 1 (Doc->numAdd currentDoc))
+                                   (Doc->content currentDoc)
+                                  )
+                 (AddAddQ (Paradoc->AddQ doc)
+                                      (+ 1 (Doc->numAdd currentDoc))
+                                      (Paradoc->userLoginActual doc)
+                                      ;userList
+                                      AddDate
+                                      Add
+                                      (Doc->id currentDoc)
+                                      )
+               )
+             ))
+           (endParadoc (endSesion) (cdr doc))
+           )
+           (endParadoc (endSesion) (cdr doc))
+        )
+       )
+     )
+   )
+)
+
+(define (Paradoc->AddQ SocialNetwork)
+  (cadddr SocialNetwork)
+  )
+
+(define (Doc->numAdd Post)
+  (cadr (cdddr (cdddr Post)))
+ )
+(define (Doc->content Post)
+  (caddr (cdddr (cdddr Post))
+  ))
+
+
+(define (AddAddQ docdocGrande idNuevaLinea userActual userList date NuevaLineaContent idPost)
+    (if (= idPost 1)
+      (if (equal? '(()) (car docdocGrande))
+          (cons (newNuevaLineatack (newNuevaLinea idNuevaLinea userActual userList date  NuevaLineaContent)) (cdr docdocGrande))
+          (cons (append (car docdocGrande) (newNuevaLineadoc (newNuevaLinea idNuevaLinea userActual userList date  NuevaLineaContent))) (cdr docdocGrande))
+       )
+      (cons (car docdocGrande) (AddAddQ (cdr docdocGrande) idNuevaLinea userActual userList date NuevaLineaContent (- idPost 1)))
+      )
+ )
+
+(define ( comment)
+  (list comment)
+  )
+(define (newNuevaLineatack comment)
+  (list comment)
+  )
+
+(define (newNuevaLinea idcomment authorUser userList datecomment commentContent)
+  (list idcomment authorUser userList datecomment commentContent)
+  )
+(define (newNuevaLineadoc  comment)
+  (list comment)
+  )
+(define (Paradoc->Doc SocialNetwork)
+  (caddr SocialNetwork)
+  )
+(define (Doc->id Post)
+  (car Post)
+ )
+(define (Doc->author Post)
+  (cadr Post)
+ )
+
+(define (Create->id create)
+  (car create)
+  )
+
+(define (CreateNew id author userList PostingDate lastActivity follow numcomment content)
+  (list id author userList numcomment content)
+ )
+
+(define (DocAct docCreate idCreate author newLikeA newLikeF userList CreateDate newDate newFollow newAdd newContent)
+    (if (null? docCreate)
+      '()
+      (if (equal? idCreate (Create->id (car docCreate)))
+          (cons (CreateNew idCreate
+                              author
+                              newLikeA
+                              newLikeF
+                              ;userList
+                              ;CreateingDate
+                              newDate
+                              ;newFollow
+                              newAdd
+                              newContent
+                             )
+                 (cdr docCreate))
+          (cons (car docCreate) (DocAct (cdr docCreate) idCreate author newLikeA newLikeF userList CreateDate newDate newFollow newAdd newContent))
+      )
+    )
+ )
+
 ;funcion de prueba para hacer pruebas del funcionamiento...
 (define (doble x)
    (* x 2))

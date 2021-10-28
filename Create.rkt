@@ -15,6 +15,7 @@
                   (actualParadoc (endSesion) ;colocar a la session
                                  (Paradoc->users doc);obtener el usuario
                                  (docnewCrear doc (Paradoc->Create doc) 1 nameDoc CrearDate Create));craer nuevo doc ingresando los parametros que tiene un doc
+                                                                                                    ;ese 1 sera el ID para el add
                   ;en caso que no
                   doc)
            ;en caso que no
