@@ -3,6 +3,8 @@
 (require "Registro.rkt")
 (require "Create.rkt")
 (require "fecha.rkt")
+(require "compartir.rkt")
+(require "anadir.rkt")
 
 ; FUNCIONES PRINCIPALES
 
@@ -28,15 +30,14 @@
 ;                          (addInicio (list usuario pass 10) registro)))))
 
 (define (register doc Date username password )
-  
   (if (Paradoc? doc) ;si -paradoc exite?
           doc ;devolver doc 
           (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
               (if (not (userExist (Paradoc->users doc) username password)) ;si el nombre no es igual a la contraseña
                   (actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
-                  (userdoc (Paradoc->users doc) (newUser username password 0))) ;añadir al usuario ;el 0 sera por el add
-                  ;los else aqui abajo xd
-                  doc)doc)))
+                  (userdoc (Paradoc->users doc) (newUser username password 0))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
+            ;los else aqui abajo xd
+            doc)doc)))
 
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ;---login---
@@ -79,22 +80,10 @@
         (endParadoc (endSesion) (cdr doc));finalizar
        ))))
 ;finalizar y mandar a otro doc
-(define (endParadoc end-SesionError otherDoc)
-  (list end-SesionError otherDoc)
-  )
-;acceso
-(define (access user accion)
-  (if accion = "r") ; posible funcion string?
-  Paradoc->users accion
-  (if accion = "w")
-  Paradoc->users accion ;podria meter funcion create?
-  (if accion = "c")
-  Paradoc->users user ;posible funcion comment a futuro?
-  )
 ;(char<? #\r)
 ;(char<? #\w)
 ;(char<? #\c)
-
+;---------------------------------------------------------------------------------------------------------------------------------------------------
 ;ADD:Función que permite añadir texto al final de la versión actual/activa del documento. La última versión del documento producto de cualquier cambio a través de esta función pasa a ser la versión activa. 
 ;Dom:paradigmadocs X int X date X String
 ;REC:paradigmadocs
@@ -114,87 +103,12 @@
                           (Paradoc->userLoginActual doc)
                           AddDate ;fecha
                           Add     ;añadir
-                          (Doc->id currentDoc))))) ;ahora hay que finalizar 
+                          (Doc->id currentDoc))))) ;ahora hay que finalizar
+           ;terminar al ser un if no cumplido.
            (endParadoc (endSesion) (cdr doc)))
            (endParadoc (endSesion) (cdr doc))))))
 
-
-(define (Paradoc->AddQ SocialNetwork)
-  (cadddr SocialNetwork)
-  )
-
-(define (Doc->numAdd Post)
-  (cadr (cdddr (cdddr Post)))
- )
-(define (Doc->content Post)
-  (caddr (cdddr (cdddr Post))
-  ))
-
-
-(define (AddAddQ docdocGrande idNuevaLinea userActual userList date NuevaLineaContent idPost)
-    (if (= idPost 1)
-      (if (equal? '(()) (car docdocGrande))
-          (cons (newNuevaLineatack (newNuevaLinea idNuevaLinea userActual userList date  NuevaLineaContent)) (cdr docdocGrande))
-          (cons (append (car docdocGrande) (newNuevaLineadoc (newNuevaLinea idNuevaLinea userActual userList date  NuevaLineaContent))) (cdr docdocGrande))
-       )
-      (cons (car docdocGrande) (AddAddQ (cdr docdocGrande) idNuevaLinea userActual userList date NuevaLineaContent (- idPost 1)))
-      )
- )
-
-(define ( comment)
-  (list comment)
-  )
-(define (newNuevaLineatack comment)
-  (list comment)
-  )
-
-(define (newNuevaLinea idcomment authorUser userList datecomment commentContent)
-  (list idcomment authorUser userList datecomment commentContent)
-  )
-(define (newNuevaLineadoc  comment)
-  (list comment)
-  )
-(define (Paradoc->Doc SocialNetwork)
-  (caddr SocialNetwork)
-  )
-(define (Doc->id Post)
-  (car Post)
- )
-(define (Doc->author Post)
-  (cadr Post)
- )
-
-(define (Create->id create)
-  (car create)
-  )
-
-(define (CreateNew id author userList PostingDate lastActivity follow numcomment content)
-  (list id author userList numcomment content)
- )
-
-;(define (DocAct docCreate idCreate author newLikeA newLikeF userList CreateDate newDate newFollow newAdd newContent)
-  (define (DocAct docCreate idCreate author CreateDate newDate newAdd newContent)
-    (if (null? docCreate)
-      '() ;null
-      (if (equal? idCreate (Create->id (car docCreate)))
-          (cons (CreateNew idCreate
-                              author
-                              ;newLikeA
-                              ;newLikeF
-                              ;userList
-                              CreateDate
-                              newDate
-                              ;newFollow
-                              newAdd
-                              newContent
-                             )(cdr docCreate))
-          (cons (car docCreate) (DocAct (cdr docCreate) idCreate author CreateDate newDate newAdd newContent))
-          ;(cons (car docCreate) (DocAct (cdr docCreate) idCreate author newLikeA newLikeF userList CreateDate newDate newFollow newAdd newContent))
-      )
-    )
- )
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------
 ; restoreVersion: Función que permite restaurar una versión anterior de un documento.
 ;Como resultado de esta función, la versión activa pasa a ser una versiónv mas dentro del historial
 ;y la versión restaurada pasa a ser la versión activa del documento. Retorno final de la función es una versión actualizada de paradigmadocs
@@ -202,11 +116,47 @@
 ;DOM:paradigmadocs X int X int
 ;REC paradigmadocs
 
+(define (restoreVersion doc)
+  (lambda (idN)
+    (lambda (idA)
+    (if (and (number? idA) (number? idN) )
+        (restore (- 1) idA) ;restorar al anterior , -1 es para volver 
+        ;else
+        doc
+    ))))
+
+(define (endFuntion id) 
+  null
+  )
+
+(define (restore number doc)
+  (lambda (currentDoc) ;creacion currentDoc nuevo
+              (actualParadoc(endSesion)
+                 (Paradoc->users doc) ;Cadr del doc
+                 (DocAct(Paradoc->Doc doc) (Doc->id currentDoc) (Doc->author currentDoc) ;creacion de nueva lista 
+                                   (- 1 (Doc->numAdd currentDoc)) ;bajar a 1
+                                   (Doc->content currentDoc));llevar al contenido
+                 (endSesion);cerramos sesion
+                 )))
+  
+  
+        
+  
+;RevokeAllAccesses
+;Función que permite al usuario revocar todos los
+;accesos a sus documentos. Retorno final de la función es una versión actualizada de
+;paradigmadocs donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
+;DOM paradigmadocs
+;REC paradigmadocs
+
 
 
 ;funcion de prueba para hacer pruebas del funcionamiento...
 (define (doble x)
    (* x 2))
+(define (sera number)
+  (if (> 3 number) 'yes 'no))
 
 (define (UsarDoble x)(doble x))
 
+(define printf (lambda X (apply format (cons #t X)) (newline)))

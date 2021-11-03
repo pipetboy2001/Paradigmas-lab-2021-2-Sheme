@@ -21,6 +21,20 @@
    )
   )
 
+
+(define addInicio(lambda(objeto lista)
+                   (if (null? lista)
+                       (cons objeto lista)
+                       (cons objeto lista))))
+(define getUser car)
+(define getUserSiguiente cdr)
+(define estaUser? (lambda (usuario registro)
+                        (if(null? registro)
+                           #f
+                           (if(equal? usuario (getUser registro))
+                              #t
+                              (estaUser? usuario (getUserSiguiente registro))))))
+
 ;cumple que es un usuario?
 (define (user? user)
   (if (null? user)
