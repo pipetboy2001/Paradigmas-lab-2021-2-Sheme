@@ -29,17 +29,26 @@
 ;                          (addInicio (list usuario pass 10) registro)
 ;                          (addInicio (list usuario pass 10) registro)))))
 
+(define (registrando doc username password)
+  ((actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
+                  (userdoc (Paradoc->users doc) (newUser username password 0))))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
+                                                
+                                               
+  
+
 (define (register doc Date username password )
   (if (Paradoc? doc) ;si -paradoc exite?
           doc ;devolver doc 
           (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
               (if (not (userExist (Paradoc->users doc) username password)) ;si el nombre no es igual a la contraseña
-                  (actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
-                  (userdoc (Paradoc->users doc) (newUser username password 0))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
-            ;los else aqui abajo xd
+                  (registrando(doc username password)) ;aplicar la funcion de añadir 
+                  ;los else aqui abajo xd
             doc)doc)))
 
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 ;---login---
 ;Función que permite autenticar a un usuario registrado iniciar sesión y junto con ello permite la ejecución de comandos concretos dentro de la plataforma. Si la autenticación es válida (i.e., que el usuario existe). El retorno es una función correspondiente a la operación (operation) parcialmente evaluada con el parámetro paradigmadocs actualizado. La actualización de paradigmadocs incorpora al usuario autenticado en la sesión activa (fundamental para que el comando pueda funcionar). De lo contrario retorna solo operation
 ;dominio paradigmadocs X string X string X function
@@ -148,6 +157,29 @@
 ;paradigmadocs donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
 ;DOM paradigmadocs
 ;REC paradigmadocs
+
+;
+
+(define RevokeAllAccesses (lambda(doc)
+                            (if(null? doc)
+                               null
+                               (if(equal? (Acces?(Acces? doc)) doc)
+                                  (list ((doc)))
+                                  (list (getAcces doc) (RevokeAllAccesses (getDocSiguiente doc) ))))))
+
+(define Acces? (lambda (doc)
+                        (if(null? doc)
+                           #t
+                           doc)))
+(define getAcces car)
+(define getDocSiguiente cdr)
+
+
+;search
+;Función que permite al usuario buscar documentos (propios o que
+;le hayan sido compartidos) que contengan un texto específico. La búsqueda se hace
+;tanto en las versiones activas del documento como en las antiguas. Retorno final de
+;la función es una lista de todos los documentos que contengan el texto especificado.
 
 
 
