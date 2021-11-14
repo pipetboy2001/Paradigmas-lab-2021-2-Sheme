@@ -5,6 +5,7 @@
 (require "fecha.rkt")
 (require "compartir.rkt")
 (require "anadir.rkt")
+(require "restorarVersion.rkt")
 
 ; FUNCIONES PRINCIPALES
 
@@ -21,21 +22,7 @@
 ;recursion :Emplear recursión natur
 ;dom paradigmadocs X date X string X string
 ;paradigmadocs
-;idea del mauri
-;(define register (lambda (registro usuario pass)
-;                   (if (estaUser? usuario registro)
-;                       (append null registro)
-;                       (if(equal? 1 (length registro))
-;                          (addInicio (list usuario pass 10) registro)
-;                          (addInicio (list usuario pass 10) registro)))))
-
-(define (registrando doc username password)
-  ((actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
-                  (userdoc (Paradoc->users doc) (newUser username password 0))))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
-                                                
-                                               
-  
-
+                          
 (define (register doc Date username password )
   (if (Paradoc? doc) ;si -paradoc exite?
           doc ;devolver doc 
@@ -44,6 +31,11 @@
                   (registrando(doc username password)) ;aplicar la funcion de añadir 
                   ;los else aqui abajo xd
             doc)doc)))
+(define (registrando doc username password)
+  ((actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
+                  (userdoc (Paradoc->users doc) (newUser username password 0))))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
+                                                
+                   
 
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -134,30 +126,17 @@
         doc
     ))))
 
-(define (endFuntion id) 
-  null
-  )
 
-(define (restore number doc)
-  (lambda (currentDoc) ;creacion currentDoc nuevo
-              (actualParadoc(endSesion)
-                 (Paradoc->users doc) ;Cadr del doc
-                 (DocAct(Paradoc->Doc doc) (Doc->id currentDoc) (Doc->author currentDoc) ;creacion de nueva lista 
-                                   (- 1 (Doc->numAdd currentDoc)) ;bajar a 1
-                                   (Doc->content currentDoc));llevar al contenido
-                 (endSesion);cerramos sesion
-                 )))
-  
-  
-        
-  
+ 
 ;RevokeAllAccesses
 ;Función que permite al usuario revocar todos los
 ;accesos a sus documentos. Retorno final de la función es una versión actualizada de
 ;paradigmadocs donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
 ;DOM paradigmadocs
 ;REC paradigmadocs
-;FUNCION NO FUNCIONAL OMITIMOS 
+
+;FUNCION NO FUNCIONAL OMITIMOS
+
 (define (RevokeAllAccesses doc)
   (lambda (defined-Revoke)
     (if (sesion? doc)
