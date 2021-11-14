@@ -157,22 +157,15 @@
 ;paradigmadocs donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
 ;DOM paradigmadocs
 ;REC paradigmadocs
-
-;
-
-(define RevokeAllAccesses (lambda(doc)
-                            (if(null? doc)
-                               null
-                               (if(equal? (Acces?(Acces? doc)) doc)
-                                  (list ((doc)))
-                                  (list (getAcces doc) (RevokeAllAccesses (getDocSiguiente doc) ))))))
-
-(define Acces? (lambda (doc)
-                        (if(null? doc)
-                           #t
-                           doc)))
-(define getAcces car)
-(define getDocSiguiente cdr)
+;FUNCION NO FUNCIONAL OMITIMOS 
+(define (RevokeAllAccesses doc)
+  (lambda (defined-Revoke)
+    (if (sesion? doc)
+     (defined-Revoke doc)
+     (endParadoc (endSesion) (cdr doc))
+    )
+    )
+ )
 
 
 ;search
@@ -184,6 +177,8 @@
 
 
 ;funcion de prueba para hacer pruebas del funcionamiento...
+;(filter odd? '(1 2 3 4 5))
+;'(1 3 5)
 (define (doble x)
    (* x 2))
 (define (sera number)

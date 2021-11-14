@@ -18,17 +18,14 @@ ya registrado.
 (define user4 (register user3 (date 20 04 2029) "Juan" "er3av" ))
 ******************************************************************
 Login
-
+;Simplemente para mostrar que funciona.
 login (register '() (date 30 01 2001) "ola" "pass") "ola" "pass" share
 
 *****************************************************************
 CREAR
 *
-(define login1 (((login user1 "Pipe" "123asd" Crear)(date 10 12 2009))"nuevoDoc" "primera linea" ))
-*
-(define login1 (((login user1 "Pipe" "123asd" restoreVersion)1)2 ))
-*
-(define login1 (((login user1 "Pipe" "123asd" UsarDoc)(date 10 12 2009))"nuevoDoc" "primera linea" ))
+(define create1 (((login user1 "Pipe" "123asd" Crear)(date 10 12 2009))"nuevoDoc" "primera linea" ))
+(define create3 (((login user1 "Pipe" "123asd" UsarDoc)(date 10 12 2009))"nuevoDoc" "primera linea" ))
 *********************************************************************
 SHARE
 
@@ -40,3 +37,10 @@ ADD
 ****************************************************************************
 RESTORE
 (define Restorar1 (((login user1 "Pipe" "123asd" restoreVersion)1)2 ))
+**************************************************************************
+RevokeAllAccesses
+(RevokeAllAccesses Paradoc) ;funciona por que si xd pero no aplica a lo que necesito
+(define Remover1 (((login user1 "Pipe" "123asd" RevokeAllAccesses)1)2 ))
+(define remove2 (((login user1 "Pipe" "123asd" RevokeAllAccesses)2 )(access "felipe" "r") ))
+(define remove3 (login Paradoc "Pipe" "123asd" revokeAllAccesses))
+*****************************************************************************
