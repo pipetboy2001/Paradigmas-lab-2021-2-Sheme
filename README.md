@@ -30,6 +30,9 @@ CREAR
 SHARE
 
 * (define Share1 (((login user1 "Pipe" "123asd" share)2 )(access "felipe" "r") ))
+
+
+
 **************************************************************************
 ADD
 *(define Añadir1 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"gracias por responder" ))
@@ -44,3 +47,5 @@ RevokeAllAccesses
 (define remove2 (((login user1 "Pipe" "123asd" RevokeAllAccesses)2 )(access "felipe" "r") ))
 (define remove3 (login Paradoc "Pipe" "123asd" revokeAllAccesses))
 *****************************************************************************
+SEARCH
+(define busqueda1 (((login user1 "Pipe" "123asd" search)Paradoc ) "hola"))

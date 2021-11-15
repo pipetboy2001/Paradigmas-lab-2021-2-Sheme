@@ -152,7 +152,36 @@
 ;le hayan sido compartidos) que contengan un texto específico. La búsqueda se hace
 ;tanto en las versiones activas del documento como en las antiguas. Retorno final de
 ;la función es una lista de todos los documentos que contengan el texto especificado.
+;DOM paradigmadoc
+;REC document list
+;(filter (lambda (x) (= x 5)) '(3 9 5 8 2 4 7))
+;(memq '"hola" '("hola"))
 
+(define (search doc) ;buscando en el doc
+  (lambda (buscando) ; lo que buscara
+    (lambda (list) ;creacion a nueva lista
+      (lambda (correcto?) ;labda numero creado
+        (occurrence buscando doc);si se repire 
+        (member buscando doc) ;ve el elemento 
+           (endParadoc (endSesion) (cdr doc)));finalizar
+        (endParadoc (endSesion) (cdr doc));finalizar
+       ))
+)
+;)
+
+;cuantas veces ocurre
+(define (occurrence x lst)
+       (if (null? lst) 0    
+            (if (equal? x (car lst))  (+ 1 (occurrence x (cdr lst)))
+                                     (occurrence x (cdr lst)) 
+            ))) 
+
+
+;true or false si se encuentra 
+(define (member? x list)
+     (cond ((null? list) #f)
+           ((equal? x (car list)) #t)
+           (else   (member? x (cdr list)))))
 
 
 ;funcion de prueba para hacer pruebas del funcionamiento...

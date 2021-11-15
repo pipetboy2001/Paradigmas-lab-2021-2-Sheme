@@ -19,3 +19,6 @@
   (if accion = "c")
   Paradoc->users user ;posible funcion comment a futuro?
   )
+
+(define (access.accesses)
+  access)
