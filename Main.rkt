@@ -161,13 +161,19 @@
   (lambda (buscando) ; lo que buscara
     (lambda (list) ;creacion a nueva lista
       (lambda (correcto?) ;labda numero creado
-        (occurrence buscando doc);si se repire 
-        (member buscando doc) ;ve el elemento 
-           (endParadoc (endSesion) (cdr doc)));finalizar
+        (buscandolo  buscando doc) ;metodo de busqueda
+        ;fin
         (endParadoc (endSesion) (cdr doc));finalizar
        ))
 )
-;)
+)
+
+
+;empezar una busqueda
+(define (buscandolo  buscando doc)
+  (occurrence buscando doc);si se repire 
+        (member buscando doc) ;ve el elemento 
+           (endParadoc (endSesion) (cdr doc)));finalizar)
 
 ;cuantas veces ocurre
 (define (occurrence x lst)
@@ -184,6 +190,129 @@
            (else   (member? x (cdr list)))))
 
 
+;paradigmadocs->string:
+;Función que recibe una plataforma del tipo
+;paradigmadocs y entrega una representación del mismo como un string posible de
+;visualizar de forma comprensible al usuario
+
+(define (paradigmadocs->string doc)
+  (string-append ; listas
+   (loginActual->string (paradigmadocs->loginActual doc))
+   (users->string (paradoc->users doc)) ;convertir a string lo que esta puesto en usuario
+   (create->string (paradoc->create doc)
+  )
+ ))
+
+ ;revisar que este el usuario
+ (define (loginActual->string user)
+    (if (null? user) ;si no hay user
+        "No se encuentran usuarios activos en SocialNetwork..\n" ;asi se muestra en pantalla hehe
+        (string-append "Sesion activa\n" "Username: " (user->username user) "\n" ;si no mostrar que si esta el usuario 
+                                             "\n"
+        )
+  ))
+(define (paradigmadocs->loginActual doc)
+  (car doc) ;primer elemento
+  )
+;usuario conectado
+(define (paradoc->users doc)
+  (cadr doc)
+  )
+;doc pa saber los usuarios
+(define (paradoc->create doc)
+  (caddr doc)
+  )
+
+;pasar a string
+(define (users->string users)
+ (string-append  "Usuarios registrados en SocialNetwork \n"
+     (doc->string user->string users)
+  )
+ )
+;del doc al string
+(define (doc->string dataType->string doc)
+  (if (null? doc)
+      "No se encontró ningún registro. \n"
+      (string-append (dataType->string (car doc)) "\n" (doc->string dataType->string (cdr doc)))
+  )
+ )
+;informarcion del usuairo a string
+(define (user->string stack)
+  (string-append "Usuarios: " (user->username stack) "\n"
+   )
+ )
+
+;concadenar todo
+(define (create->string CreateDoc commentStack)
+  (if (null? CreateDoc)
+      ""
+      (string-append
+           (Create->string (car CreateDoc))
+           ;(comment->string (car commentStack))
+            "\n"
+            ;(Post-comment->string (cdr PostsStack) (cdr commentStack))
+       )
+  )
+ )
+
+(define (Create->id Post)
+  (car Post)
+ )
+
+(define (Create->author Post)
+  (cadr Post)
+ )
+;reduce a una unica salida los elementos de una lista.
+(define (reduce function list id)
+ (if (null? list)
+      id
+      (function (car list) (reduce function (cdr list) id))
+  )
+)
+
+(define (date->string date)
+  (reduce string-append (map (lambda (a) (if (> a 31)
+                                             (string-append (number->string a)
+                                                            )
+                                             (string-append (number->string a) "-")
+                                             )
+                               )
+                             date)
+          "\n")
+ )
+
+(define (date->dateCreate date)
+  (car date)
+  )
+
+(define (Create->dates Post)
+  (cadr (cdddr Post))
+ )
+
+(define (date->dateLast date)
+  (cadr date)
+  )
+
+(define (Create->content Post)
+  (caddr (cdddr (cdddr Post))
+  ))
+
+;imprimir create
+(define (Create->string Create)
+  (string-append ;"Doc ID: " (number->string (Create->id Create)) "\n" ;num id del doc
+                 ;"Author: " (Create->author Create) "Views: " (number->string) "\n" ; autor del doc
+                ; "Date: " (date->string (date->dateCreate (Create->dates Create))) ;fecha de creacion
+                ; " '' " (Create->content Create) " ''\n" ;contenido
+                ; "Last date: " (date->string (date->dateLast (Create->dates Create)))) ;fecha de ultima modificacion
+                  "\n"
+                ; "comment: " (number->string (Post->numcomment Post)
+                  ) "\n"
+                 
+                  "\n"
+                 )
+ 
+
+
 ;funcion de prueba para hacer pruebas del funcionamiento...
 ;(filter odd? '(1 2 3 4 5))
 ;'(1 3 5)
@@ -195,3 +324,6 @@
 (define (UsarDoble x)(doble x))
 
 (define printf (lambda X (apply format (cons #t X)) (newline)))
+;como funciona string apped 
+ (define (string-concat lst1 lst2)
+     (string-append* (add-between (append lst1 lst2) " ")))
