@@ -1,6 +1,27 @@
 #lang racket
 (provide (all-defined-out))
 (require "fecha.rkt")
+;--------------------------
+;REPRESENTACION
+;-------------------------
+
+;-------------------------
+;PERTENENCIA
+;------------------------
+
+;-----------------------
+;CONSTRUCTOR
+;-----------------------
+
+
+;-----------------------
+;MODIFICADORES
+;-----------------------
+
+;-------------------------------
+;SELECTORES
+;--------------------------------
+
 
 ;okay empezemos...
 ;primero una funcion para ver si cumple que es un doc de paradigmas xd

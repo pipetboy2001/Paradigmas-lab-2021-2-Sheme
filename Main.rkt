@@ -14,23 +14,37 @@
 ;(paradigmadocs name date encryptFunction decryptFunction)
 ;Integer X Integer X Integer
 ;(date dd mm yyyy)
+(define (paradigmadocs name date encryptFunction decryptFuction)
+  (if (and (string? name)(date? date)) ;si el nombre es un string y la fecha igual 
+      "Sesion activa\n" ;imprimir que la sesion esta activa c:
+      ;no se si aqui es como el login que debe hacer funcionar una funcion
+        (string-append "No se encuentran usuarios activos en Paradigmadocs..\n" ;si no que no se encuentra
+        )
+  )
+ )
 
-;Añadir pronto xd
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ;---register---
 ;Función que permite registrar a un nuevo usuario en la plataforma de documentos. Para esto se solicita la plataforma de documentos, nombre del usuario (identificador único, se debe verificar que no exista para su correcto registro) y contraseña. El retorno de la función es una versión actualizada de paradigmadocs con el nuevo usuario registrado.
 ;recursion :Emplear recursión natur
 ;dom paradigmadocs X date X string X string
 ;paradigmadocs
-                          
-(define (register doc Date username password )
-  (if (Paradoc? doc) ;si -paradoc exite?
-          doc ;devolver doc 
-          (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
+
+;funcion que comprueba si se añade usando registre
+(define (comprobarRegistre doc Date username password)
+   (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
               (if (not (userExist (Paradoc->users doc) username password)) ;si el nombre no es igual a la contraseña
                   (registrando(doc username password)) ;aplicar la funcion de añadir 
                   ;los else aqui abajo xd
-            doc)doc)))
+            doc)doc))
+                          
+(define (register doc Date username password )
+  (if (Paradoc? doc) ;si -paradoc exite?
+          doc ;devolver doc
+          (comprobarRegistre doc Date username password);comprobar que los datos esten bien y de paso añadirlo
+          ))
+
+;funcion que añade al doc un usuario
 (define (registrando doc username password)
   ((actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
                   (userdoc (Paradoc->users doc) (newUser username password 0))))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
@@ -46,14 +60,20 @@
 ;dominio paradigmadocs X string X string X function
 ;recorrido paradigmadocs
 ;example (login paradigmadocs “user” “pass” create)
-(define (login doc username password action) ;primero definimos tiene el doc , nombre , contraseña , y la accion a realizar 
-      (action doc) ; aplicamos la accion
-      (if (user? (userExist (Paradoc->users doc) username password)) ; si el usuario existe dentro del doc 
+
+;funcion que comprueba que los datos existen y al final aplica la funcion
+(define (comprobarLogin doc username password action)(if (user? (userExist (Paradoc->users doc) username password)) ; si el usuario existe dentro del doc 
           (action (actualParadoc (newUser username password (user->caddr (userExist (Paradoc->users doc) username password))) ;aplicar accion en una nueva lista 
                            ;funciones...
                            (Paradoc->Create doc) )) ; crear doc     
           (action doc) ;aplicar funcion
-  )
+  ))
+                                                    
+
+(define (login doc username password action) ;primero definimos tiene el doc , nombre , contraseña , y la accion a realizar 
+      (action doc) ; aplicamos la accion
+  (comprobarLogin doc username password action) ;funcion que comprueba que esta
+  ;de paso esta aplica el action doc 
  )
 
 ;--------------------------------------------------------------------------------------------------

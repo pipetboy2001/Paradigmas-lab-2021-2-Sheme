@@ -9,6 +9,7 @@
 (define (date dd mm aa)
   (list dd mm aa)
   )
+
 ;dia 
 (define (date->day date)
   (car date)
