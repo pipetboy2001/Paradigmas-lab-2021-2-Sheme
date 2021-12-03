@@ -2,6 +2,7 @@
 (provide (all-defined-out))
 ;FECHAS
 
+;Constructor
 ; Función que crea una lista de fecha.
 ; Dominio: number x number x number. 
 ; Recorrido: list.
@@ -10,6 +11,7 @@
   (list dd mm aa)
   )
 
+;Selector
 ;dia 
 (define (date->day date)
   (car date)

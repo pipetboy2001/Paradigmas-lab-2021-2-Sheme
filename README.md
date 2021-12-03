@@ -30,7 +30,7 @@ SHARE
 
 **************************************************************************
 ADD
-*(define Añadir1 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"gracias por responder" ))
+(define Añadir1 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"gracias por responder" ))
 ****************************************************************************
 RESTORE
 (define Restorar1 (((login user1 "Pipe" "123asd" restoreVersion)1)2 ))

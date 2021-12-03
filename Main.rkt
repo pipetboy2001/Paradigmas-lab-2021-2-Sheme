@@ -1,15 +1,15 @@
 #lang racket
+;archivos de TDA para usar en el programa
 (provide (all-defined-out))
 (require "Registro.rkt")
 (require "Create.rkt")
 (require "fecha.rkt")
-(require "compartir.rkt")
 (require "anadir.rkt")
 (require "restorarVersion.rkt")
 (require "buscar.rkt")
 (require "string.rkt")
 
-; FUNCIONES PRINCIPALES
+; FUNCIONES PRINCIPALES!
 
 ;Constructor paradigmadocs
 ;String X Date X EncryptFunction X DecryptFunction
@@ -31,46 +31,18 @@
 ;recursion :Emplear recursión natur
 ;dom paradigmadocs X date X string X string
 ;paradigmadocs
-
-;funcion que comprueba si se añade usando registre
-(define (comprobarRegistre doc Date username password)
-   (if (and (string? username) (string? password)(date? Date)) ;si el nombre , contraeña son string y la fecha una fehca
-              (if (not (userExist (Paradoc->users doc) username password)) ;si el nombre no es igual a la contraseña
-                  (registrando(doc username password)) ;aplicar la funcion de añadir 
-                  ;los else aqui abajo xd
-            doc)doc))
-                          
 (define (register doc Date username password )
   (if (Paradoc? doc) ;si -paradoc exite?
           doc ;devolver doc
           (comprobarRegistre doc Date username password);comprobar que los datos esten bien y de paso añadirlo
           ))
 
-;funcion que añade al doc un usuario
-(define (registrando doc username password)
-  ((actualParadoc (Paradoc->loginActual doc) ;en la lista de usuario
-                  (userdoc (Paradoc->users doc) (newUser username password 0))))) ;añadir al usuario ;el 0 sera por el add osea su paramtro de editor o no
-                                                
-                   
-
 ;------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 ;---login---
 ;Función que permite autenticar a un usuario registrado iniciar sesión y junto con ello permite la ejecución de comandos concretos dentro de la plataforma. Si la autenticación es válida (i.e., que el usuario existe). El retorno es una función correspondiente a la operación (operation) parcialmente evaluada con el parámetro paradigmadocs actualizado. La actualización de paradigmadocs incorpora al usuario autenticado en la sesión activa (fundamental para que el comando pueda funcionar). De lo contrario retorna solo operation
 ;dominio paradigmadocs X string X string X function
 ;recorrido paradigmadocs
 ;example (login paradigmadocs “user” “pass” create)
-
-;funcion que comprueba que los datos existen y al final aplica la funcion
-(define (comprobarLogin doc username password action)(if (user? (userExist (Paradoc->users doc) username password)) ; si el usuario existe dentro del doc 
-          (action (actualParadoc (newUser username password (user->caddr (userExist (Paradoc->users doc) username password))) ;aplicar accion en una nueva lista 
-                           ;funciones...
-                           (Paradoc->Create doc) )) ; crear doc     
-          (action doc) ;aplicar funcion
-  ))
-                                                    
 
 (define (login doc username password action) ;primero definimos tiene el doc , nombre , contraseña , y la accion a realizar 
       (action doc) ; aplicamos la accion
@@ -149,7 +121,7 @@
     ))))
 
 
- 
+;-------------------------------------------------------------------------------------------------------------------------------------------------- 
 ;RevokeAllAccesses
 ;Función que permite al usuario revocar todos los
 ;accesos a sus documentos. Retorno final de la función es una versión actualizada de
@@ -162,13 +134,13 @@
 (define (RevokeAllAccesses doc)
   (lambda (defined-Revoke)
     (if (sesion? doc)
-     (defined-Revoke doc)
+     (defined-Revoke doc) ;no supo como hacer un remove funtion
      (endParadoc (endSesion) (cdr doc))
     )
     )
  )
 
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------
 ;search
 ;Función que permite al usuario buscar documentos (propios o que
 ;le hayan sido compartidos) que contengan un texto específico. La búsqueda se hace
@@ -192,11 +164,7 @@
 
 
 
-
-
-
-
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------
 ;paradigmadocs->string:
 ;Función que recibe una plataforma del tipo
 ;paradigmadocs y entrega una representación del mismo como un string posible de
@@ -207,14 +175,14 @@
   (string-append
    (loginActual->string (Paradoc->loginActual doc))
    (users->string (Paradoc->users doc))
-   (Create-Version->string (Paradoc->Create doc) (Paradoc->VersionQ doc))
+   (Create-Version->string (Paradoc->Create doc) (Paradoc->VersionQ doc)) ;versiones anteriores
   )
  )
 
 
 
 
-
+;--------------------------------------------------------------------------------------------------------------------------------------------------
 ;funcion de prueba para hacer pruebas del funcionamiento...
 ;(filter odd? '(1 2 3 4 5))
 ;'(1 3 5)

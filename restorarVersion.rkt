@@ -5,10 +5,13 @@
 (require "anadir.rkt")
 
 ;restoreVersion elementos
+;contructor
+;definir final funcion por id vacio
 (define (endFuntion id) 
   null
   )
-
+;Modificador
+;restorar 
 (define (restore number doc)
   (lambda (currentDoc) ;creacion currentDoc nuevo
               (actualParadoc(endSesion)
