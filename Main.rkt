@@ -56,7 +56,7 @@
 ;dominio paradigmadocs X date X String (nombreDoc) X String(contenido)
 ;recorrido paradigmadocs
 ;ejemplo (login Paradoc “user” “pass” create) (date 30 10 2020) “doc1” “este es mi primer documento”) 
-(define(UsarDoc doc)(Crear doc))
+(define(UsarDoc doc)(Crear doc)) ;la funcion crear colocara en labda todo y luego verificara con la funcion compruebaCreate finalmente lo añade
 ;--------------------------------------------------------------------------------------------------
 ;---share---
 ;Función que permite compartir un documento con otros usuarios especificando el tipo de acceso a éste (lectura, escritura, comentarios). El retorno final de la función es una versión actualizada de paradigmadocs donde se registra el tipo de acceso otorgado a cada usuario y se elimina la sesión activa del usuario en paradigmadocs.
@@ -79,32 +79,21 @@
 ;(char<? #\w)
 ;(char<? #\c)
 ;---------------------------------------------------------------------------------------------------------------------------------------------------
-;ADD:Función que permite añadir texto al final de la versión actual/activa del documento. La última versión del documento producto de cualquier cambio a través de esta función pasa a ser la versión activa. 
+;---ADD---
+;Función que permite añadir texto al final de la versión actual/activa del documento. La última versión del documento producto de cualquier cambio a través de esta función pasa a ser la versión activa. 
 ;Dom:paradigmadocs X int X date X String
 ;REC:paradigmadocs
 (define (Add doc) 
   (lambda (AddDate);fecha
     (lambda (idDoc) ;id
       (if (sesion? doc);inicia session?
-          (if (and (date? AddDate) (and (number? idDoc) (> idDoc 0))(string? Add))
-          ;si la fecha es fecha xd y el id es un numero , y que el doc mayor a 0,y es un string lo que agregamos
-           ((lambda (currentDoc) ;creacion currentDoc
-              (actualParadoc(endSesion)
-                 (Paradoc->users doc) ;Cadr del paradoc
-                 (DocAct(Paradoc->Doc doc) (Doc->id currentDoc) (Doc->author currentDoc)AddDate ;creacion de nueva lista 
-                                   (+ 1 (Doc->numAdd currentDoc)) ;AÑADIR +1
-                                   (Doc->content currentDoc)) ;llevar al contenido
-                 (AddAddQ (Paradoc->AddQ doc)(+ 1 (Doc->numAdd currentDoc)) ;añadir doc nuevo 
-                          (Paradoc->userLoginActual doc)
-                          AddDate ;fecha
-                          Add     ;añadir
-                          (Doc->id currentDoc))))) ;ahora hay que finalizar
-           ;terminar al ser un if no cumplido.
-           (endParadoc (endSesion) (cdr doc)))
+          (comprobarAdd AddDate idDoc Add doc ) ;comprobar y añadir
+         ;si no fin
            (endParadoc (endSesion) (cdr doc))))))
 
 ;--------------------------------------------------------------------------------------------------------------------------------------------------
-; restoreVersion: Función que permite restaurar una versión anterior de un documento.
+;---RESTORE Version ---
+;Función que permite restaurar una versión anterior de un documento.
 ;Como resultado de esta función, la versión activa pasa a ser una versiónv mas dentro del historial
 ;y la versión restaurada pasa a ser la versión activa del documento. Retorno final de la función es una versión actualizada de paradigmadocs
 ;donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
@@ -129,7 +118,7 @@
 ;DOM paradigmadocs
 ;REC paradigmadocs
 
-;FUNCION NO FUNCIONAL OMITIMOS
+;FUNCION NO FUNCIONA OMITIMOS
 
 (define (RevokeAllAccesses doc)
   (lambda (defined-Revoke)
@@ -172,13 +161,8 @@
 
 
 (define (paradigmadocs->string  doc)
-  (string-append
-   (loginActual->string (Paradoc->loginActual doc))
-   (users->string (Paradoc->users doc))
-   (Create-Version->string (Paradoc->Create doc) (Paradoc->VersionQ doc)) ;versiones anteriores
+  ( juntarString doc) ;string es convertirlo a string y juntar todo
   )
- )
-
 
 
 

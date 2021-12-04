@@ -1,11 +1,35 @@
 #lang racket
 (provide (all-defined-out))
+(require "Registro.rkt")
+(require "Create.rkt")
 
 ;---------------------
 ;REPRESENTACION
 ;_______________________
 ;ingresar el doc , el id , fecha y luego lo que se agrega
 ;(paradigmadocs 2 (23 01 2001) "hola")
+
+
+;_________________________
+;PERTENENCIA
+;_________________________
+
+(define (comprobarAdd AddDate idDoc Add doc )
+  (if (and (date? AddDate) (and (number? idDoc) (> idDoc 0))(string? Add))
+          ;si la fecha es fecha xd y el id es un numero , y que el doc mayor a 0,y es un string lo que agregamos
+           ((lambda (currentDoc) ;creacion currentDoc
+              (actualParadoc(endSesion)
+                 (Paradoc->users doc) ;Cadr del paradoc
+                 (DocAct(Paradoc->Doc doc) (Doc->id currentDoc) (Doc->author currentDoc)AddDate ;creacion de nueva lista 
+                                   (+ 1 (Doc->numAdd currentDoc)) ;AÑADIR +1
+                                   (Doc->content currentDoc)) ;llevar al contenido
+                 ;añadir
+                 (añadirA doc currentDoc AddDate Add) ))) ;ahora hay que finalizar
+           ;terminar al ser un if no cumplido.
+           (endParadoc (endSesion) (cdr doc))))
+
+
+
 ;_________________________
 ;CONSTRUCTOR
 ;_________________________
@@ -68,6 +92,13 @@
   (list id author userList numcomment content)
  )
 
+
+(define (añadirA doc currentDoc AddDate Add)
+  (AddAddQ (Paradoc->AddQ doc)(+ 1 (Doc->numAdd currentDoc)) ;añadir doc nuevo 
+                          (Paradoc->userLoginActual doc)
+                          AddDate ;fecha
+                          Add     ;añadir
+                          (Doc->id currentDoc)))
 ;_________________________
 ;SELECTORES
 ;_________________________

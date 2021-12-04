@@ -11,7 +11,7 @@ REGISTER
 Para otros ejemplos se debe tener en cuenta que el nombre de usuario y contraseña
 deben ser strings o provocará error, lo mismo al intentar registrar un usuario
 ya registrado.
-(define user0 (register '() (date 30 11 2009) "Pipe" "123asd" ))
+(define user0 (register '() (date 30 11 2009) "Pipeto" "123asd" ))
 (define user1 (register (Paradoc) (date 30 11 2009) "Pipe" "123asd" ))
 (define user2 (register user1 (date 01 12 2018) "Damian" "123asd" ))
 (define user3 (register user2 (date 16 10 2003) "Cami" "ascv34" ))

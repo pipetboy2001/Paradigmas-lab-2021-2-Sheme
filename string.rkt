@@ -7,6 +7,7 @@
 ;----------------
 ;CONSTRUCTOR
 ;----------------
+
 ;conver string el usuario
 (define (loginActual->string user)
   (if (null? user)
@@ -51,7 +52,22 @@
   (reduce string-append (map (lambda (a) (string-append a " ")) userList) "\n")
  )
 
+;juntar y convertir 
+(define( juntarString doc)
+  (string-append
+   (loginActual->string (Paradoc->loginActual doc)) ;su llogin
+   (users->string (Paradoc->users doc)) ;usuarios
+   (Create-Version->string (Paradoc->Create doc) (Paradoc->VersionQ doc)) ;versiones anteriores y doc actual
+  )
+)
 
+;partes a usar de un doc
+;funcion al final sin usar ya que funciona solo si estaba todo junta :[ 
+(define (partesDoc doc)
+  (loginActual->string (Paradoc->loginActual doc))
+   (users->string (Paradoc->users doc))
+   (Create-Version->string (Paradoc->Create doc) (Paradoc->VersionQ doc)) ;versiones anteriores
+  )
 
 ;concadenar versiones
 (define (Create-Version->string CreatesStack VersionStack)

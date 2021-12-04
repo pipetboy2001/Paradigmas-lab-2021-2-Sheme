@@ -33,6 +33,16 @@
   )
  )
 
+(define (compruebaCreate doc Create CrearDate nameDoc)
+  (if (and (string? Create) (date? CrearDate) (nameDoc? nameDoc)) ;si create es un string , createdate una fecha y el nombre del doc un nombre 
+                  (actualParadoc (endSesion) ;colocar a la session
+                                 (Paradoc->users doc);obtener el usuario
+                                 (docnewCrear doc (Paradoc->Create doc) 1 nameDoc CrearDate Create));craer nuevo doc ingresando los parametros que tiene un doc
+                                                                                                    ;ese 1 sera el ID para el add
+                  ;en caso que no
+                  doc)
+  )
+
 ;________________________
 ;CONSTRUCTOR
 ;________________________
@@ -44,7 +54,7 @@
 ;nuevo doc crear
 (define (docnewCrear doc docCreate id userList CrearDate Create)
   (if (null? docCreate)
-      (newCreate id (Paradoc->userLoginActual doc) 0 userList CrearDate CrearDate 0 Create)
+      (newCreate id (Paradoc->userLoginActual doc) 0 userList CrearDate CrearDate 0 Create) ;id - usaurios - crear fecha 
       (if (= 1 (length docCreate))
           (append (Paradoc->Create doc)
                   (newCreate (+ id 1) (Paradoc->userLoginActual doc) 0 userList CrearDate CrearDate 0 Create))
@@ -76,17 +86,14 @@
    (lambda (CrearDate) ;una fecha
      (lambda (Create . nameDoc);nombre del doc 
        (if (sesion? doc) ;esta activo?
-           (if (and (string? Create) (date? CrearDate) (nameDoc? nameDoc)) ;si create es un string , createdate una fecha y el nombre del doc un nombre 
-                  (actualParadoc (endSesion) ;colocar a la session
-                                 (Paradoc->users doc);obtener el usuario
-                                 (docnewCrear doc (Paradoc->Create doc) 1 nameDoc CrearDate Create));craer nuevo doc ingresando los parametros que tiene un doc
-                                                                                                    ;ese 1 sera el ID para el add
-                  ;en caso que no
-                  doc)
+           (compruebaCreate doc Create CrearDate nameDoc); revisar si funcionan los datos
+           ;finalmente al comprobarlo lo crea
            ;en caso que no
            doc)
        ;cerrar parentesis del comienzo
        )))
+
+
 ;------------------------
 ;SELECTORES
 ;------------------------
