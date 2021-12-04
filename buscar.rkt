@@ -1,7 +1,8 @@
 #lang racket
 (provide (all-defined-out))
+(require "Registro.rkt")
 (require "Create.rkt")
-(require "compartir.rkt")
+;(require "compartir.rkt")
 
 ;---------------
 ;Representacion
