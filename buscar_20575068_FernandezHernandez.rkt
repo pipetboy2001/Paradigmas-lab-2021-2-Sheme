@@ -1,7 +1,7 @@
 #lang racket
 (provide (all-defined-out))
-(require "Registro.rkt")
-(require "Create.rkt")
+(require "Registro_20575068_FernandezHernandez.rkt")
+(require "Create_20575068_FernandezHernandez.rkt")
 ;(require "compartir.rkt")
 
 ;---------------

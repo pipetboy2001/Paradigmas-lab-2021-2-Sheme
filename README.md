@@ -20,7 +20,7 @@ ya registrado.
 ******************************************************************
 LOGIN
 *******************************************************************
-;Simplemente para mostrar que funciona.
+;Simplemente para mostrar que funciona el Registro.
 login (register '() (date 30 01 2001) "ola" "pass") "ola" "pass" share
 login (register '() (date 30 01 2001) "ola" "pass") "ola" "pass" Crear
 login (register '() (date 30 01 2001) "ola" "pass") "ola" "pass" Add
@@ -28,13 +28,15 @@ login (register '() (date 30 01 2001) "ola" "pass") "ola" "pass" Add
 *****************************************************************
 CREAR
 *******************************************************************
-(define create1 (((login user2 "Damian" "123asd" Crear)(date 10 12 2009))"nuevoDoc" "primera linea" ))
+;para crear un nuevo Doc
+(define create1 (((login user2 "Damian" "123asd" UsarDoc)(date 10 12 2009))"nuevoDoc" "primera linea" ))
 (define create2 (((login user3 "Cami" "ascv34" UsarDoc)(date 10 12 2009))"nuevoDoc" "otra primera linea" ))
 (define create3 (((login user4 "Juan" "er3av" UsarDoc)(date 10 12 2009))"nuevoDoc" "otra linea mas" ))
 
 *********************************************************************
 SHARE
 *******************************************************************
+;compartir a otro usuario mediante R = Read , W=Write ,C=Comentar
 (define Share1 (((login user2 "Damian" "123asd" share)2 )(access "Damian" "r") ))
 (define Share2 (((login user3 "Cami" "ascv34" share)2 )(access "Cami" "w") ))
 (define Share3 (((login user4 "Juan" "er3av"  share)2 )(access "Juan" "c") ))
@@ -42,6 +44,7 @@ SHARE
 **************************************************************************
 ADD
 **************************************************************************
+;añade un nuevo texto al Doc creado
 (define Añadir1 (((login user2 "Damian" "123asd" Add)(date 10 12 2009))"gracias por responder" ))
 (define Añadir2 (((login user3 "Cami" "ascv34" Add)(date 10 12 2009))"aqui se pone mas" ))
 (define Añadir3 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"muy buen trabajo! " ))
@@ -49,6 +52,7 @@ ADD
 ****************************************************************************
 RESTORE
 ****************************************************************************
+;Restorar a un punto anterior antes de ser editado
 (define Restorar1 (((login user1 "Pipe" "123asd" restoreVersion)1)2 ))
 (define Restorar2 (((login user2 "Damian" "123asd" restoreVersion)2)3 ))
 (define Restorar3 (((login user3 "Cami" "ascv34" restoreVersion)3)4 ))
@@ -56,16 +60,19 @@ RESTORE
 
 **************************************************************************
 RevokeAllAccesses
-*ADVERTENCIA NO FUNCIONA*
+;*ADVERTENCIA NO FUNCIONA*
+;remover el acceso (READ,WRITE,COMENT) 
 (RevokeAllAccesses Paradoc) ;funciona por que si xd pero no aplica a lo que necesito
 (define Remover1 (((login user1 "Pipe" "123asd" RevokeAllAccesses)1)2 ))
 (define remove2 (((login user2 "Damian" "123asd" RevokeAllAccesses)2 )(access "felipe" "r") ))
 (define remove3 (login Paradoc "Pipe" "123asd" revokeAllAccesses))
 *****************************************************************************
 SEARCH
+;Busca en paradoc si alguna vez aquello fue puesto
 (define busqueda1 (((login user1 "Pipe" "123asd" search)Paradoc ) "hola"))
-(define busqueda1 (((login user2 "Damian" "123asd" search)Paradoc ) "hola"))
-(define busqueda1 (((login user4 "Juan" "er3av" search)Paradoc ) "hola"))
+(define busqueda2 (((login user2 "Damian" "123asd" search)Paradoc ) "hola2"))
+(define busqueda3 (((login user4 "Juan" "er3av" search)Paradoc ) "hola3"))
 ***********************
 STRING
+;Mostrar de manera visual el doc
 (paradigmadocs->string (Paradoc))

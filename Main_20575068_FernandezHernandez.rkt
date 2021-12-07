@@ -1,13 +1,13 @@
 #lang racket
 ;archivos de TDA para usar en el programa
 (provide (all-defined-out))
-(require "Registro.rkt")
-(require "Create.rkt")
-(require "fecha.rkt")
-(require "anadir.rkt")
-(require "restorarVersion.rkt")
-(require "buscar.rkt")
-(require "string.rkt")
+(require "Registro_20575068_FernandezHernandez.rkt")
+(require "Create_20575068_FernandezHernandez.rkt")
+(require "fecha_20575068_FernandezHernandez.rkt")
+(require "anadir_20575068_FernandezHernandez.rkt")
+(require "restorarVersion_20575068_FernandezHernandez.rkt")
+(require "buscar_20575068_FernandezHernandez.rkt")
+(require "string_20575068_FernandezHernandez.rkt")
 
 ; FUNCIONES PRINCIPALES!
 
@@ -56,8 +56,13 @@
 ;dominio paradigmadocs X date X String (nombreDoc) X String(contenido)
 ;recorrido paradigmadocs
 ;ejemplo (login Paradoc “user” “pass” create) (date 30 10 2020) “doc1” “este es mi primer documento”) 
-(define(UsarDoc doc)(Crear doc)) ;la funcion crear colocara en labda todo y luego verificara con la funcion compruebaCreate finalmente lo añade
-;--------------------------------------------------------------------------------------------------
+(define(UsarDoc doc)
+   (lambda (CrearDate) ;una fecha
+     (lambda (Create . nameDoc);nombre del doc
+       (Crear doc CrearDate Create nameDoc)) ;la funcion crear colocara en labda todo y luego verificara con la funcion compruebaCreate finalmente lo añade
+))
+
+     ;--------------------------------------------------------------------------------------------------
 ;---share---
 ;Función que permite compartir un documento con otros usuarios especificando el tipo de acceso a éste (lectura, escritura, comentarios). El retorno final de la función es una versión actualizada de paradigmadocs donde se registra el tipo de acceso otorgado a cada usuario y se elimina la sesión activa del usuario en paradigmadocs.
 ;dom paradigmadocs X int X access List)

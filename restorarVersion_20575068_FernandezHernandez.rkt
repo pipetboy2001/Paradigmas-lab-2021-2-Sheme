@@ -1,8 +1,8 @@
 #lang racket
 (provide (all-defined-out))
-(require "Registro.rkt")
-(require "Create.rkt")
-(require "anadir.rkt")
+(require "Registro_20575068_FernandezHernandez.rkt")
+(require "Create_20575068_FernandezHernandez.rkt")
+(require "anadir_20575068_FernandezHernandez.rkt")
 
 ;restoreVersion elementos
 ;contructor

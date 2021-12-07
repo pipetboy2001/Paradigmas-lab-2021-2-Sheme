@@ -1,6 +1,6 @@
 #lang racket
 (provide (all-defined-out))
-(require "Registro.rkt")
+(require "Registro_20575068_FernandezHernandez.rkt")
 
 ; REPRESENTACION
 ; paradigmadocs X date X String (nombreDoc) X String(contenido)
@@ -82,16 +82,16 @@
 ;dominio paradigmadocs X date X String (nombreDoc) X String(contenido)
 ;recorrido paradigmadocs
 ;ejemplo (login Paradoc “user” “pass” create) (date 30 10 2020) “doc1” “este es mi primer documento”) 
-(define (Crear doc) ;se le ingresa el parametro de doc
-   (lambda (CrearDate) ;una fecha
-     (lambda (Create . nameDoc);nombre del doc 
+(define (Crear doc CrearDate Create nameDoc) ;se le ingresa el parametro de doc
+   ;(lambda (CrearDate) ;una fecha
+    ; (lambda (Create . nameDoc);nombre del doc 
        (if (sesion? doc) ;esta activo?
            (compruebaCreate doc Create CrearDate nameDoc); revisar si funcionan los datos
            ;finalmente al comprobarlo lo crea
            ;en caso que no
            doc)
        ;cerrar parentesis del comienzo
-       )))
+       );))
 
 
 ;------------------------
