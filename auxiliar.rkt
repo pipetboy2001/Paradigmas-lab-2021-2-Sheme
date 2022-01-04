@@ -53,6 +53,19 @@
           )
       )
   )
+
+;Modificador
+;restorar 
+(define (restore number doc)
+  (lambda (currentDoc) ;creacion currentDoc nuevo
+              (actualGoogleDoc(endSesion)
+                 (GoogleDoc->users doc) ;Cadr del doc
+                 (createAct(GoogleDoc->Create doc) (create->id currentDoc) (create->author currentDoc) ;creacion de nueva lista 
+                                   (- 1 (create->numAdd currentDoc)) ;bajar a 1
+                                   (create->content currentDoc));llevar al contenido
+                 (endSesion);cerramos sesion
+                 )))
+
 ;---------------------------------------------------
 ; FUNCIONES SELECTORAS
 ;---------------------------------------------------
@@ -121,6 +134,19 @@
 (define (endGoogleDoc end-SesionError otherDoc)
   (list end-SesionError otherDoc)
   )
+
+; Función que permite responder una pregunta.
+; Dominio: doc x docCreate x number x list x list x string
+; Recorrido: docAdd
+(define (AddAddQ docAdd idAdd userActual permisos date addContent idQuestion)
+    (if (= idQuestion 1)
+      (if (equal? '(()) (car docAdd))
+          (cons (newAddDoc (newAdds idAdd userActual permisos date #f 0 (votes 0 0) addContent)) (cdr docAdd))
+          (cons (append (car docAdd) (newAddDoc (newAdds idAdd userActual permisos date #f 0 (votes 0 0) addContent))) (cdr docAdd))
+       )
+      (cons (car docAdd) (AddAddQ (cdr docAdd) idAdd userActual permisos date addContent (- idQuestion 1)))
+      )
+ )
 ;---------------------------------------------------
 ; FUNCIONES MODIFICADORES
 ;---------------------------------------------------

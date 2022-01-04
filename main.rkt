@@ -117,35 +117,35 @@
 ; Recorrido: doc actualizado. 
 
 (define (Add doc)
-  (lambda (answerDate)
-    (lambda (idQuestion)
+  (lambda (addDate)
+    (lambda (idCreate)
       (lambda (Add . permisos)
         (if (sesion? doc)
-          (if (and (date? answerDate) (and (number? idQuestion) (> idQuestion 0))
-                   (string? Add) (permiso? permisos) (not (equal? false (createExist (GoogleDoc->Create doc) idQuestion))))
-           ((lambda (currentQuestion) 
+          (if (and (date? addDate) (and (number? idCreate) (> idCreate 0))
+                   (string? Add) (permiso? permisos) (not (equal? false (createExist (GoogleDoc->Create doc) idCreate))))
+           ((lambda (currentCreate) 
               (actualGoogleDoc
                  (endSesion)
                  (GoogleDoc->users doc)
-                 (createAct   (GoogleDoc->Create doc) (create->id currentQuestion) (create->author currentQuestion)
-                                   (votes->a (create->votes currentQuestion)) (votes->f (create->votes currentQuestion))
-                                   (+ 1 (create->views currentQuestion))
-                                   (create->permisos currentQuestion) (date->dateDoc (create->Date currentQuestion))
-                                   answerDate
-                                   (create->state currentQuestion) (create->reward currentQuestion)
-                                   (+ 1 (create->numAdd currentQuestion))
-                                   (create->content currentQuestion)
+                 (createAct   (GoogleDoc->Create doc) (create->id currentCreate) (create->author currentCreate)
+                                   (votes->a (create->votes currentCreate)) (votes->f (create->votes currentCreate))
+                                   (+ 1 (create->views currentCreate))
+                                   (create->permisos currentCreate) (date->dateDoc (create->Date currentCreate))
+                                   addDate
+                                   (create->state currentCreate) (create->reward currentCreate)
+                                   (+ 1 (create->numAdd currentCreate))
+                                   (create->content currentCreate)
                                   )
                  (AddAddQ (GoogleDoc->Add doc)
-                                      (+ 1 (create->numAdd currentQuestion))
+                                      (+ 1 (create->numAdd currentCreate))
                                       (GoogleDoc->userLoginActual doc)
                                       permisos
-                                      answerDate
+                                      addDate
                                       Add
-                                      (create->id currentQuestion)
+                                      (create->id currentCreate)
                                       )
                )
-             )(createExist (GoogleDoc->Create doc) idQuestion))
+             )(createExist (GoogleDoc->Create doc) idCreate))
            (endGoogleDoc (endSesion) (cdr doc))
            )
            (endGoogleDoc (endSesion) (cdr doc))
@@ -154,3 +154,20 @@
      )
    )
 )
+
+;---RESTORE Version ---
+;Función que permite restaurar una versión anterior de un documento.
+;Como resultado de esta función, la versión activa pasa a ser una versiónv mas dentro del historial
+;y la versión restaurada pasa a ser la versión activa del documento. Retorno final de la función es una versión actualizada de paradigmadocs
+;donde se registra el cambio y se elimina la sesión activa del usuario en paradigmadocs.
+;DOM:paradigmadocs X int X int
+;REC paradigmadocs
+
+(define (restoreVersion doc)
+  (lambda (idN)
+    (lambda (idA)
+    (if (and (number? idA) (number? idN) )
+        (restore (- 1) idA) ;restorar al anterior , -1 es para volver 
+        ;else
+        doc
+    ))))

@@ -1,5 +1,6 @@
 #lang racket
 (provide (all-defined-out))
+
 ; TDA Creacion
 
 ;---------------------------------------------------
@@ -27,6 +28,22 @@
 (define (dateDoc createDate lastActivity)
   (list createDate lastActivity)
 )
+; Función que modifica una pregunta.
+; Dominio: number x string x list x list x list x string x number x number x string x number x list.
+; Recorrido: list
+(define (docNew id author voteA voteF views permisos createDate lastActivity state reward numAdds content)
+  (list id author (votes voteA voteF) views permisos (dateDoc createDate lastActivity) state reward numAdds content)
+ )
+
+;restoreVersion elementos
+;contructor
+;definir final funcion por id vacio
+(define (endFuntion id) 
+  null
+  )
+
+  
+  
 
 ;---------------------------------------------------
 ; FUNCION PERTENENCIA
@@ -135,15 +152,67 @@
 (define (create->content create)
   (cadddr (cdddr (cdddr create)))
   )
+
+;---------------------------------------------------
+; FUNCIONES MODIFICADORES
+;---------------------------------------------------
+; Función que determina si la pregunta es válida.
+; Recursión: Natural.
+; Dominio:  x number x string x number x number x number x list x list x list x string x number x number x string.
+; Recorrido: stack.
+(define (createAct docCreate idDoc author newVoteA newVoteF newViews permisos createDate newDate newState newReward newAdd newContent)
+    (if (null? docCreate)
+      '()
+      (if (equal? idDoc (create->id (car docCreate)))
+          (cons (docNew idDoc
+                              author
+                              newVoteA
+                              newVoteF
+                              newViews
+                              permisos
+                              createDate
+                              newDate
+                              newState
+                              newReward
+                              newAdd
+                              newContent
+                             )
+                 (cdr docCreate))
+          (cons (car docCreate) (createAct (cdr docCreate) idDoc author newVoteA newVoteF newViews
+                                                      permisos createDate newDate newState newReward newAdd newContent))
+      )
+    )
+ )
 ;---------------------------------------------------
 ; OTRAS FUNCIONES
 ;---------------------------------------------------
+; Función que determina si una pregunta sigue abierta.
+; Dominio: stackQuestions.
+; Recorrido: create(list).
+(define (createExist docCreate idDoc)
+  (if (null? docCreate)
+      #f
+      (if (= idDoc (create->id (car docCreate)))
+          (car docCreate)
+          (docNew (cdr docCreate) idDoc)
+       )
+   )
+  )
+
 ; Función que crea una lista de votos.
 ; Dominio: number x number.
 ; Recorrido: list.
 (define (votes a f)
   (list a f)
   )
+
+; Función que retorna los votos negativos.
+; Dominio: list.
+; Recorrido: number. 
+(define (votes->f votes)
+  (cadr votes)
+  )
+
 ; Función que retorna los votos positivos.
 ; Dominio: list.
 ; Recorrido: number. 

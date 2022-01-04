@@ -24,6 +24,12 @@
 (define (newAddDoc adds)
   (list adds)
   )
+; Función que crea una respuesta.
+; Dominio: number x string x list x number x string x number x list x string
+; Recorrido: stack.
+(define (newAdds idAdd authorUser permisos dateAnswer acceptedState reports votes answerContent)
+  (list idAdd authorUser permisos dateAnswer acceptedState reports votes answerContent)
+  )
 
 ;---------------------------------------------------
 ; FUNCION PERTENENCIA

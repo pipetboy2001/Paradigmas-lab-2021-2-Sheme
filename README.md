@@ -15,7 +15,7 @@ LOGIN
 *******************************************************************
 ;Simplemente para mostrar que funciona el Registro.
 login (register '()  "ola" "pass") "ola" "pass" share
-login (register '()  "ola" "pass") "ola" "pass" Create
+login (register '()  "ola" "pass") "ola" "pass" create
 login (register '()  "ola" "pass") "ola" "pass" Add
 
 *******************************************************************
@@ -25,9 +25,9 @@ Para los ejemplos se utilizan los usuarios registrados anteriormente, se utiliza
 reutilizando los datos.
 
 (define login1 (((login user4 "Naomi" "123asd" create)(date 10 12 2009))"este es mi primer doc creado"  "Juan"))
-(define login2 (((login login1 "Jake" "er3av" create)(date 12 09 2020))"Como leer un archivo en C" "C" "programacion" "archivo"))
-(define login3 (((login login2 "Damian" "1a2b3e" create)(date 13 12 2012))"Como parar un bucle" "programacion" "Java" "bucles"))
-(define login4 (((login login3 "Damian" "1a2b3e" create)(date 28 10 2016))"Como escribir hola mundo en Scheme" "programacion" "Scheme" "string"))
+(define login2 (((login login1 "Jake" "er3av" create)(date 12 09 2020))"Como leer un archivo en C" "Juan" "Miguel"))
+(define login3 (((login login2 "Damian" "1a2b3e" create)(date 13 12 2012))"Esta es mi tesis" "Naomi" "Jake" "Juan"))
+(define login4 (((login login3 "Damian" "1a2b3e" create)(date 28 10 2016))"Laboratorio numero 5 de electro" ))
 
 ********************************************************************
 SHARE
@@ -43,3 +43,11 @@ ADD
 (define Añadir1 (((login user2 "Damian" "123asd" Add)(date 10 12 2009))"gracias por responder" ))
 (define Añadir2 (((login user3 "Cami" "ascv34" Add)(date 10 12 2009))"aqui se pone mas" ))
 (define Añadir3 (((login user4 "Juan" "er3av" Add)(date 10 12 2009))"muy buen trabajo! " ))
+****************************************************************************
+RESTORE
+****************************************************************************
+;Restorar a un punto anterior antes de ser editado
+(define Restorar1 (((login user1 "Pipe" "123asd" restoreVersion)1)2 ))
+(define Restorar2 (((login user2 "Damian" "123asd" restoreVersion)2)3 ))
+(define Restorar3 (((login user3 "Cami" "ascv34" restoreVersion)3)4 ))
+(define Restorar4 (((login user4 "Juan" "er3av" restoreVersion)1)4 ))
