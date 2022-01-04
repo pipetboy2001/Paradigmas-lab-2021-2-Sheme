@@ -56,7 +56,12 @@
 ;---------------------------------------------------
 ; FUNCIONES SELECTORAS
 ;---------------------------------------------------
-
+; Función que retorna el nombre del usuario.
+; Dominio: stack.
+; Recorrido: string.
+(define (GoogleDoc->userLoginActual GoogleDoc)
+  (car (car GoogleDoc))
+  )
 ; Función que retorna los usuarios conectados.
 ; Dominio: stack.
 ; Recorrido: doc(list).
@@ -81,6 +86,13 @@
 (define (GoogleDoc->Add GoogleDoc)
   (cadddr GoogleDoc)
   )
+; Función que finaliza la sesion del usuario.
+; Dominio: 
+; Recorrido: list
+(define (endSesion)
+  '()
+  )
+
 ;---------------------------------------------------
 ; FUNCIONES MODIFICADORES
 ;---------------------------------------------------
@@ -89,6 +101,25 @@
 ; Recorrido: stack.
 (define (actualGoogleDoc actualLogin users create addQ)
   (list actualLogin users create addQ)
+  )
+; Función que permite añadir preguntas al stack.
+; Dominio: doc x docCreate x number x list x list x string
+; Recorrido: docCreate
+(define (docNewCreate doc docCreate id permisos createDate question)
+  (if (null? docCreate)
+      (newDoc id (GoogleDoc->userLoginActual doc) (votes 0 0) 0 permisos createDate createDate (isOpen) 0 0 question)
+      (if (= 1 (length docCreate))
+          (append (GoogleDoc->Create doc)
+                  (newDoc (+ id 1) (GoogleDoc->userLoginActual doc) (votes 0 0) 0 permisos createDate createDate (isOpen) 0 0 question))
+          (docNewCreate  doc (cdr docCreate) (+ id 1) permisos createDate question)
+       )
+      )
+  )
+; Función que cierra un stack.
+; Dominio: list(endSesion) x list(doc)
+; Recorrido: doc
+(define (endGoogleDoc end-SesionError otherDoc)
+  (list end-SesionError otherDoc)
   )
 ;---------------------------------------------------
 ; FUNCIONES MODIFICADORES

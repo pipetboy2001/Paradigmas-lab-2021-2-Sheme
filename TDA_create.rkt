@@ -15,6 +15,19 @@
 ;---------------------------------------------------
 ; FUNCION CONSTRUCTOR
 ;---------------------------------------------------
+; Función que crea una nueva pregunta.
+; Dominio: number x string x list x list x list x string x number x number x string x number x list.
+; Recorrido: list.
+(define (newDoc id author votes views permisos createDate lastActivity state reward numAdds content)
+  (list (list id author votes views permisos(dateDoc createDate lastActivity) state reward numAdds content))
+ )
+; Función que crea una lista de las fechas de la pregunta.
+; Dominio: date(list) x date(list).
+; Recorrido: list.
+(define (dateDoc createDate lastActivity)
+  (list createDate lastActivity)
+)
+
 ;---------------------------------------------------
 ; FUNCION PERTENENCIA
 ;---------------------------------------------------
@@ -58,6 +71,7 @@
        )
   )
  )
+
 ;---------------------------------------------------
 ; FUNCIONES SELECTORAS
 ;---------------------------------------------------
@@ -124,6 +138,12 @@
 ;---------------------------------------------------
 ; OTRAS FUNCIONES
 ;---------------------------------------------------
+; Función que crea una lista de votos.
+; Dominio: number x number.
+; Recorrido: list.
+(define (votes a f)
+  (list a f)
+  )
 ; Función que retorna los votos positivos.
 ; Dominio: list.
 ; Recorrido: number. 
@@ -141,4 +161,29 @@
 ; Recorrido: list. 
 (define (date->dateLast date)
   (cadr date)
+  )
+; Función que determina si la sesion está abierta.
+; Dominio: 
+; Recorrido: string.
+(define (isOpen)
+  "OPEN"
+  )
+
+; Función que crea una lista de fecha.
+; Dominio: number x number x number. 
+; Recorrido: list.
+(define (date dd mm aa)
+  (list dd mm aa)
+  )
+
+(define (date->day date)
+  (car date)
+  )
+
+(define (date->month date)
+  (cadr date)
+  )
+
+(define (date->year date)
+  (caddr date)
   )

@@ -66,6 +66,12 @@
 
 (define getPassword (lambda (user)
                   (car(cdr user))))
+; Función que retorna la reputación del usuario.
+; Dominio: user(list)
+; Recorrido: number
+(define (user->reputation user)
+  (caddr user)
+  )
 ;---------------------------------------------------
 ; FUNCIONES MODIFICADORES
 ;---------------------------------------------------
