@@ -156,3 +156,129 @@
 (define (sesion? doc)
   (not (null? (GoogleDoc->loginActual doc)))
   )
+
+  ;;string
+
+  ; Función que convierte en string la sesion del usuario.
+; Dominio: doc
+; Recorrido: string
+(define (loginActual->string user)
+  (if (null? user)
+        "No found users actives in GoogleDoc.\n"
+        (string-append "Sesion activa\n" "Username: " (user->username user) "\n"
+                                             "Reputation: " (number->string (user->reputation user)) "\n"
+                                             "\n"
+        )
+  )
+ )
+
+ ; Función que pasa un doc de usuarios a un string.
+; Dominio: stackUsers
+; Recorrido: string
+(define (users->string users)
+ (string-append  "Users register in GoogleDoc \n"
+     (Doc->String user->string users)
+  )
+ )
+
+ ; Función que pasa los elementos de un doc en string.
+; Dominio: función - doc
+; Recorrido: string
+(define (Doc->String dataType->string doc)
+  (if (null? doc)
+      "No found any Stack register. \n"
+      (string-append (dataType->string (car doc)) "\n" (Doc->String dataType->string (cdr doc)))
+  )
+ )
+ (define (user->string doc)
+  (string-append "User: " (user->username doc) "\n"
+                 "Reputation: " (number->string (user->reputation doc)) "\n"
+   )
+ )
+
+; Función que concatena un doc de respuestas a su respectiva pregunta.
+; Dominio: stackQuestion x docAdd
+; Recorrido: string
+(define (create-add->string createDoc addDoc)
+  (if (null? createDoc)
+      ""
+      (string-append
+           (question->string (car createDoc))
+           (answers->string (car addDoc))
+            "\n"
+            (create-add->string (cdr createDoc) (cdr addDoc))
+       )
+  )
+ )
+
+; Función que pasa la informacion de una respuesta a un string.
+; Dominio: answer(list)
+; Recorrido: string
+(define (answer->string answer)
+  (if (null? answer)
+         "Question without answers. \n"
+         (string-append "Answer id: " (number->string (add->id answer)) " Author: " (add->author answer) "\n"
+                 "  '' " (add->content answer) " ''\n"
+                 "\t Enviada el: " (date->string (add->date answer))
+                 "\t Tags " ((lambda (tagg) (if (equal? '("") tagg) "No found tags. \n" (permisos->string tagg)))(add->permisos answer))
+                 "\t Puntuacion Positiva: " (number->string (votes->a (add->votes answer)))
+                 " - Puntuacion Negativa: " (number->string (votes->f (add->votes answer))) "\n"
+                 "\t" ((lambda (state) (if state "Question accepted." "Question no accepted."))(add->state answer)) "\n"
+                 "\t Question report " (number->string (add->report answer)) " \n"
+                 )
+   )
+ )
+
+; Función que pasa la informacion de una fecha a string.
+; Dominio: list
+; Recorrido: string
+(define (date->string date)
+  (reduce string-append (map (lambda (a) (if (> a 31) (string-append (number->string a)) (string-append (number->string a) "-"))) date) "\n")
+ )
+
+; Función que pasa la informacion de las etiquetas a string.
+; Dominio: list
+; Recorrido: string
+(define (permisos->string permisos)
+  (reduce string-append (map (lambda (a) (string-append a " ")) permisos) "\n")
+ )
+
+; Función que pasa un doc de respuestas a String.
+; Dominio: docAdd
+; Recorrido: string
+(define (answers->string answers)
+  (if (null? answers)
+         "No found answers. \n"
+         (string-append "Answers: \n"
+            (Doc->String answer->string answers)
+          )
+  )
+ )
+
+; Función que pasa la información de una pregunta a string.
+; Dominio: question(list)
+; Recorrido: string
+(define (question->string question)
+  (string-append "Question ID: " (number->string (create->id question)) "\n"
+                 "Author: " (create->author question) "Views: " (number->string (create->views question)) "\n"
+                 "Tags: " ((lambda (tagg) (if (equal? '("") tagg) "Question no tags. \n" (permisos->string tagg)))(create->permisos question))
+                 "Date: " (date->string (date->dateDoc (create->Date question)))
+                 " '' " (create->content question) " ''\n"
+                 "Last date: " (date->string (date->dateLast (create->Date question)))
+                 ((lambda (state) (if (equal? "OPEN" state) "Question open." "Question closed."))(create->state question))
+                 "Reward: " (number->string (create->reward question)) "\n"
+                 "Answers: " (number->string (create->numAdd question)) "\n"
+                 "Puntos a favor: " (number->string (votes->a (create->votes question)))
+                 " - Puntos en contra: " (number->string (votes->f (create->votes question))) "\n"
+                 )
+ )
+
+; Funcion que reduce a una unica salida los elementos de una lista.
+; Dominio: function x list x id
+; Recorrido: element
+(define (reduce function list id)
+ (if (null? list)
+      id
+      (function (car list) (reduce function (cdr list) id))
+  )
+)

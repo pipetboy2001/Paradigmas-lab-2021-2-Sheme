@@ -171,3 +171,27 @@
         ;else
         doc
     ))))
+
+;-------------------------------------------------------------------------------------------------------------------------------------------------- 
+;RevokeAllAccesses
+
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------
+;search
+
+;-------------------------------------------
+; TDA paradigmadocs->string
+;-------------------------------------------
+; Función que recibe un doc y entrega una representación del mismo 
+; como un string posible de visualizar de forma comprensible al usuario.
+; Recursion: Natural
+; Dominio: list(doc).
+; Recorrido: string.
+
+(define (paradigmadocs->string doc)
+  (string-append
+   (loginActual->string (GoogleDoc->loginActual doc))
+   (users->string (GoogleDoc->users doc))
+   (create-add->string (GoogleDoc->Create doc) (GoogleDoc->Add doc))
+  )
+ )
