@@ -30,13 +30,6 @@ reutilizando los datos.
 (define login4 (((login login3 "Damian" "1a2b3e" create)(date 28 10 2016))"Laboratorio numero 5 de electro" ))
 
 ********************************************************************
-String
-********************************************************************
-STRING
-;Mostrar de manera visual el doc
-(paradigmadocs->string (GoogleDoc))
-
-********************************************************************
 SHARE
 ******************************************************************
 (define Share1 (((login user1 "Pipe" "123asd" share)(date 30 10 2020)) 2 ))
@@ -58,7 +51,12 @@ RESTORE
 (define Restorar2 (((login user2 "Damian" "123asd" restoreVersion)2)3 ))
 (define Restorar3 (((login user3 "Cami" "ascv34" restoreVersion)3)4 ))
 (define Restorar4 (((login user4 "Juan" "er3av" restoreVersion)1)4 ))
-
+****************************************************************************
+SEARCH
+****************************************************************************
+(define busqueda1 (((login user1 "Pipe" "123asd" search)GoogleDoc ) "hola"))
+(define busqueda2 (((login user2 "Damian" "123asd" search)GoogleDoc ) "hola2"))
+(define busqueda3 (((login user4 "Juan" "er3av" search)GoogleDoc ) "hola3"))
 ****************************************************************************
 STRING
 ****************************************************************************
