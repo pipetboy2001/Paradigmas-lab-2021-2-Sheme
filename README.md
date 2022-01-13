@@ -6,10 +6,11 @@ Para otros ejemplos se debe tener en cuenta que el nombre de usuario y contrase�
 deben ser strings o provocará error, lo mismo al intentar registrar un usuario
 ya registrado.
 
-(define user1 (register (GoogleDoc) "Naomi" "123asd"))
-(define user2 (register user1 "Damian" "1a2b3e"))
-(define user3 (register user2 "Cami" "ascv34"))
-(define user4 (register user3 "Jake" "er3av"))
+(define user0 (register '() (date 30 11 2009) "Pipeto" "123asd" ))
+(define user1 (register (GoogleDoc) (date 30 11 2009) "Pipe" "123asd" ))
+(define user2 (register user1 (date 01 12 2018) "Damian" "123asd" ))
+(define user3 (register user2 (date 16 10 2003) "Cami" "ascv34" ))
+(define user4 (register user3 (date 20 04 2029) "Juan" "er3av" ))
 ******************************************************************
 LOGIN
 *******************************************************************
@@ -24,18 +25,19 @@ CREATE
 Para los ejemplos se utilizan los usuarios registrados anteriormente, se utiliza la función login junto con la función create,
 reutilizando los datos.
 
-(define login1 (((login user4 "Naomi" "123asd" create)(date 10 12 2009))"este es mi primer doc creado"  "Juan"))
-(define login2 (((login login1 "Jake" "er3av" create)(date 12 09 2020))"Como leer un archivo en C" "Juan" "Miguel"))
-(define login3 (((login login2 "Damian" "1a2b3e" create)(date 13 12 2012))"Esta es mi tesis" "Naomi" "Jake" "Juan"))
-(define login4 (((login login3 "Damian" "1a2b3e" create)(date 28 10 2016))"Laboratorio numero 5 de electro" ))
+(define Create1 (((login user4 "Naomi" "123asd" create)(date 10 12 2009))"este es mi primer doc creado"  "Juan"))
+(define Create2 (((login Create1 "Jake" "er3av" create)(date 12 09 2020))"Como leer un archivo en C" "Juan" "Miguel"))
+(define Create3 (((login Create2 "Damian" "1a2b3e" create)(date 13 12 2012))"Esta es mi tesis" "Naomi" "Jake" "Juan"))
+(define Create4 (((login Create3 "Damian" "1a2b3e" create)(date 28 10 2016))"Laboratorio numero 5 de electro" ))
 
 ********************************************************************
 SHARE
 ******************************************************************
-(define Share1 (((login user1 "Pipe" "123asd" share)(date 30 10 2020)) 2 ))
-(define Share2 (((login user4 "Juan" "er3av" share)(date 23 10 2021)) 1 ))
-(define Share3 (((login user2 "Damian" "1a2b3e" share)(date 23 03 2021)) 1 ))
-(define Share4 (((login user3 "Cami" "ascv34" share)(date 25 11 2020)) 1 ))
+;compartir a otro usuario mediante R = Read , W=Write ,C=Comentar
+(define Share1 (((login user2 "Damian" "123asd" share)2 )(access "Damian" "r") ))
+(define Share2 (((login user3 "Cami" "ascv34" share)2 )(access "Cami" "w") ))
+(define Share3 (((login user4 "Juan" "er3av"  share)2 )(access "Juan" "c") ))
+(define Share4 (((login user1 "Pipe" "123asd" share)(date 30 10 2020)) 2 ))
 **************************************************************************
 ADD
 **************************************************************************
@@ -63,3 +65,8 @@ STRING
 ;Mostrar de manera visual el doc
 (paradigmadocs->string (GoogleDoc))
 (paradigmadocs->string user4)
+****************************************************************************
+COMMENT
+****************************************************************************
+(define Comment1 (((login user4 "Naomi" "123asd" comment)(date 10 12 2009)) "Le comento al doc del usuario 4 ehe"))
+

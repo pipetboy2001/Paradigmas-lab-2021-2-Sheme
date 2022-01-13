@@ -4,6 +4,7 @@
 (require "TDA_create.rkt")
 (require "TDA_anadir.rkt")
 (require "TDA_buscar.rkt")
+(require "TDA_comentario.rkt")
 
 ;LAB FELIPE 20575068-1
 
@@ -16,19 +17,21 @@
 ; Dominio: list(doc)xstring(username)xstring(password)
 ; Recorrido: doc actualizado con nuevo usuario o sin modificar.
 ;Example:
-;(define user1 (register (GoogleDoc) "Naomi" "123asd"))
-;(define user2 (register user1 "Damian" "1a2b3e"))
-;(define user3 (register user2 "Cami" "ascv34"))
-;(define user4 (register user3 "Jake" "er3av"))
+;(define user1 (register (GoogleDoc) (date 15 06 2001) "Naomi" "123asd"))
+;(define user2 (register user1 (date 30 02 2001) "Damian" "1a2b3e"))
+;(define user3 (register user2 (date 21 01 2022) "Cami" "ascv34"))
+;(define user4 (register user3 (date 01 02 2003) "Jake" "er3av"))
 
-(define (register doc username password)
+                        
+
+(define (register doc date username password)
   (if (GoogleDoc? doc)
       (if (sesion? doc)
           doc
-          (if (and (string? username) (string? password))
+          (if (and (string? username) (string? password) )
               (if (not (userExist (GoogleDoc->users doc) username password))
                   (actualGoogleDoc (GoogleDoc->loginActual doc)
-                                   (userDoc (GoogleDoc->users doc) (newUser username password 0))
+                                   (userDoc (GoogleDoc->users doc) (newUser username password 0)) 
                                    (GoogleDoc->Create doc)
                                    (GoogleDoc->Add doc)
                                    )
@@ -105,11 +108,15 @@
 ;especificando el tipo de acceso a éste
 ;DOM  paradigmadocs X int X access List
 ;REC paradigmadocs
-;(define Share1 (((login user1 "Pipe" "123asd" share)(date 30 10 2020)) 2 ))
-;(define Share2 (((login user4 "Juan" "er3av" share)(date 23 10 2021)) 1 ))
-;(define Share3 (((login user2 "Damian" "1a2b3e" share)(date 23 03 2021)) 1 ))
-;(define Share4 (((login user3 "Cami" "ascv34" share)(date 25 11 2020)) 1 ))
+;compartir a otro usuario mediante R = Read , W=Write ,C=Comentar
+;(define Share1 (((login user2 "Damian" "123asd" share)2 )(access "Damian" "r") ))
+;(define Share2 (((login user3 "Cami" "ascv34" share)2 )(access "Cami" "w") ))
+;(define Share3 (((login user4 "Juan" "er3av"  share)2 )(access "Juan" "c") ))
 
+;finalizar y mandar a otro doc
+;(char<? #\r)
+;(char<? #\w)
+;(char<? #\c)
 (define (share Doc)
   (lambda (shareDate) 
     (lambda (idDoc)
@@ -327,16 +334,4 @@
                            (if(equal? 4 (length doc))
                               (list (append (list (getUsername (getRegistro doc)) comentario idCreate) getComentario) (getComentario doc) (getUsuarioActivo doc) (getRegistro doc))
                               (doc))))))))
-
-(define getUsername car)
-(define getRegistro3 caddr)
-(define getCreate3 car)
-(define getUsuarioActivo3(lambda(doc)
-                           (car (cadr doc))))
-(define getRegistro cadddr)
-(define getComentario car)
-(define getCreate cadr)
-(define getUsuarioActivo(lambda(doc)
-                           (car (caddr doc))))
-
 

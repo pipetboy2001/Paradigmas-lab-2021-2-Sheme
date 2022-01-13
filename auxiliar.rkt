@@ -115,6 +115,19 @@
 (define (actualGoogleDoc actualLogin users create addQ)
   (list actualLogin users create addQ)
   )
+;acceso
+(define (access user accion)
+  (if accion = "r") ; posible funcion string?
+  GoogleDoc->users accion
+  (if accion = "w")
+  GoogleDoc->users accion ;podria meter funcion create?
+  (if accion = "c")
+  GoogleDoc->users user ;posible funcion comment a futuro?
+  )
+
+(define (access.accesses)
+  access)
+
 ; Función que permite añadir preguntas al stack.
 ; Dominio: doc x docCreate x number x list x list x string
 ; Recorrido: docCreate
@@ -234,7 +247,7 @@
   (reduce string-append (map (lambda (a) (if (> a 31) (string-append (number->string a)) (string-append (number->string a) "-"))) date) "\n")
  )
 
-; Función que pasa la informacion de las etiquetas a string.
+; Función que pasa la informacion de los permisos a string.
 ; Dominio: list
 ; Recorrido: string
 (define (permisos->string permisos)
@@ -259,7 +272,7 @@
 (define (creates->string question)
   (string-append "Doc ID: " (number->string (create->id question)) "\n"
                  "Author: " (create->author question) "Views: " (number->string (create->views question)) "\n"
-                 "Permisos: " ((lambda (tagg) (if (equal? '("") tagg) "Question no tags. \n" (permisos->string tagg)))(create->permisos question))
+                 "Permisos: " ((lambda (permisoss) (if (equal? '("") permisoss) "Question no tags. \n" (permisos->string permisoss)))(create->permisos question))
                  "Date: " (date->string (date->dateDoc (create->Date question)))
                  " '' " (create->content question) " ''\n"
                  "Last date: " (date->string (date->dateLast (create->Date question)))
