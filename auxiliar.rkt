@@ -23,7 +23,7 @@
   )
 
 ; Función que comprueba si los nuevos doc son válidos.
-; Dominio: stack.
+; Dominio: doc.
 ; Recorrido: boolean.
 (define (GoogleDoc? GoogleDoc)
   (if (list? GoogleDoc)
@@ -42,7 +42,7 @@
    )
   )
 ; Función que comprueba si el doc es válido.
-; Dominio: stack.
+; Dominio: doc.
 ; Recorrido: boolean.
 (define (validDoc validation doc2)
   (if (null? doc2)
@@ -70,7 +70,7 @@
 ; FUNCIONES SELECTORAS
 ;---------------------------------------------------
 ; Función que retorna el nombre del usuario.
-; Dominio: stack.
+; Dominio: doc.
 ; Recorrido: string.
 (define (GoogleDoc->userLoginActual GoogleDoc)
   (car (car GoogleDoc))
@@ -82,13 +82,13 @@
   (cadr GoogleDoc)
   )
 ; Función que retorna el usuario que ha iniciado sesión.
-; Dominio: stack.
+; Dominio: doc.
 ; Recorrido: user(list)
 (define (GoogleDoc->loginActual GoogleDoc)
   (car GoogleDoc)
   )
 ; Función que retorna las preguntas de los usuarios.
-; Dominio: stack.
+; Dominio: doc.
 ; Recorrido: stackQuestions.
 (define (GoogleDoc->Create GoogleDoc)
   (caddr GoogleDoc)
@@ -110,8 +110,8 @@
 ; FUNCIONES MODIFICADORES
 ;---------------------------------------------------
 ; Función que actualiza el stack.
-; Dominio: user x stackUsers x docCreate x docAdd
-; Recorrido: stack.
+; Dominio: user x docUsers x docCreate x docAdd
+; Recorrido: doc.
 (define (actualGoogleDoc actualLogin users create addQ)
   (list actualLogin users create addQ)
   )
@@ -128,7 +128,7 @@
 (define (access.accesses)
   access)
 
-; Función que permite añadir preguntas al stack.
+; Función que permite añadir preguntas al doc.
 ; Dominio: doc x docCreate x number x list x list x string
 ; Recorrido: docCreate
 (define (docNewCreate doc docCreate id permisos createDate question)
@@ -141,7 +141,7 @@
        )
       )
   )
-; Función que cierra un stack.
+; Función que cierra un doc.
 ; Dominio: list(endSesion) x list(doc)
 ; Recorrido: doc
 (define (endGoogleDoc end-SesionError otherDoc)
@@ -179,14 +179,14 @@
   (if (null? user)
         "No found users actives in GoogleDoc.\n"
         (string-append "Sesion activa\n" "Username: " (user->username user) "\n"
-                                             "Permiso: " (number->string (user->reputation user)) "\n"
+                                             "Permiso: " (number->string (user->permiso user)) "\n"
                                              "\n"
         )
   )
  )
 
  ; Función que pasa un doc de usuarios a un string.
-; Dominio: stackUsers
+; Dominio: docUsers
 ; Recorrido: string
 (define (users->string users)
  (string-append  "Users register in GoogleDoc \n"
@@ -205,12 +205,12 @@
  )
  (define (user->string doc)
   (string-append "User: " (user->username doc) "\n"
-                 "Permiso: " (number->string (user->reputation doc)) "\n"
+                 "Permiso: " (number->string (user->permiso doc)) "\n"
    )
  )
 
 ; Función que concatena un doc de respuestas a su respectiva pregunta.
-; Dominio: stackQuestion x docAdd
+; Dominio: docCreate x docAdd
 ; Recorrido: string
 (define (create-add->string createDoc addDoc)
   (if (null? createDoc)
@@ -225,7 +225,7 @@
  )
 
 ; Función que pasa la informacion de una respuesta a un string.
-; Dominio: answer(list)
+; Dominio: add(list)
 ; Recorrido: string
 (define (añadir->string añadido)
   (if (null? añadido)
@@ -233,7 +233,7 @@
          (string-append "que doc? id: " (number->string (add->id añadido)) " Author: " (add->author añadido) "\n"
                  "  '' " (add->content añadido) " ''\n"
                  "\t Enviada el: " (date->string (add->date añadido))
-                 "\t Permisos " ((lambda (permisoss) (if (equal? '("") permisoss) "No found tags. \n" (permisos->string permisoss)))(add->permisos añadido))
+                 "\t Permisos " ((lambda (permisoss) (if (equal? '("") permisoss) "No found . \n" (permisos->string permisoss)))(add->permisos añadido))
                 
                  "\t" ((lambda (state) (if state "create accepted." "create no accepted."))(add->state añadido)) "\n"
                  )
@@ -267,7 +267,7 @@
  )
 
 ; Función que pasa la información de una pregunta a string.
-; Dominio: question(list)
+; Dominio: create(list)
 ; Recorrido: string
 (define (creates->string question)
   (string-append "Doc ID: " (number->string (create->id question)) "\n"
@@ -290,3 +290,11 @@
       (function (car list) (reduce function (cdr list) id))
   )
 )
+
+
+(define (elimina x Lista1)
+(if (null? Lista1)
+'()
+(if (eq? x (car Lista1))
+(elimina x (cdr Lista1))
+(cons (car Lista1) (elimina x (cdr Lista1))))))

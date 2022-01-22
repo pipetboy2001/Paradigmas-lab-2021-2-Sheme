@@ -5,8 +5,10 @@ REGISTER
 Para otros ejemplos se debe tener en cuenta que el nombre de usuario y contraseña
 deben ser strings o provocará error, lo mismo al intentar registrar un usuario
 ya registrado.
-
+;Uso de ejemplo ,esta no funciona:
 (define user0 (register '() (date 30 11 2009) "Pipeto" "123asd" ))
+
+;las que si registran:
 (define user1 (register (GoogleDoc) (date 30 11 2009) "Pipe" "123asd" ))
 (define user2 (register user1 (date 01 12 2018) "Damian" "123asd" ))
 (define user3 (register user2 (date 16 10 2003) "Cami" "ascv34" ))
@@ -16,7 +18,7 @@ LOGIN
 *******************************************************************
 ;Simplemente para mostrar que funciona el Registro.
 
-login (register '() (date 30 11 2009) "Pipeto" "123asd") "Pipeto" "123asd" share
+login (register '() (date 30 11 2009) "Juan" "er3av") "Juan" "er3av" share
 login (register '() (date 31 11 2009) "Pipe" "123asd") "Pipe" "123asd" create
 login (register '() (date 29 11 2009) "Damian" "123asd") "Damian" "123asd" Add
 
@@ -79,8 +81,13 @@ se busca un elemento (string)
 STRING
 ****************************************************************************
 ;Mostrar de manera visual el doc
-
+;mostrar solo GoogleDoc
 (paradigmadocs->string (GoogleDoc))
+
+;mostar solo user 1
+(paradigmadocs->string user1)
+
+;recorre hasta user4
 (paradigmadocs->string user4)
 
 ****************************************************************************

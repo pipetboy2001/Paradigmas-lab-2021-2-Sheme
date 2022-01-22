@@ -10,9 +10,9 @@
 
 ; EJEMPLOS:
 ; '()  de pregunta vacío
-; '(1 "nagito" (0 0) 0 ("tagAnime" "tagCyber" "tagPunk") ((11 09 19) (01 01 21)) "OPEN" 0 0 "por qué es azul el cielo")
-; '((1 "nagito" (0 0) 0 ("tagAnime" "tagCyber" "tagPunk") ((11 09 19) (01 01 21)) "OPEN" 0 0 "por qué es azul el cielo"))
-;   (2 "usagi" (0 0) 0 ("salud" "mente" "depresion") ((24 12 18) (11 10 19)) "CLOSE" 0 0 "Por qué estoy deprimido"))
+; '(1 "nagito" (0 0) 0  ((11 09 19) (01 01 21)) "OPEN" 0 0 "por qué es azul el cielo")
+; '((1 "nagito" (0 0) 0  ((11 09 19) (01 01 21)) "OPEN" 0 0 "por qué es azul el cielo"))
+;   (2 "usagi" (0 0) 0 ((24 12 18) (11 10 19)) "CLOSE" 0 0 "Por qué estoy deprimido"))
 ;---------------------------------------------------
 ; FUNCION CONSTRUCTOR
 ;---------------------------------------------------
@@ -187,7 +187,7 @@
 ; OTRAS FUNCIONES
 ;---------------------------------------------------
 ; Función que determina si una pregunta sigue abierta.
-; Dominio: stackQuestions.
+; Dominio: DocCreate.
 ; Recorrido: create(list).
 (define (createExist docCreate idDoc)
   (if (null? docCreate)
@@ -199,7 +199,7 @@
    )
   )
 
-; Función que crea una lista de votos.
+; Función que crea una lista.
 ; Dominio: number x number.
 ; Recorrido: list.
 (define (votes a f)
@@ -237,7 +237,7 @@
 (define (isOpen)
   "OPEN"
   )
-
+;Fechas
 ; Función que crea una lista de fecha.
 ; Dominio: number x number x number. 
 ; Recorrido: list.

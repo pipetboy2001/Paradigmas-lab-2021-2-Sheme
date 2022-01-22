@@ -6,21 +6,21 @@
 ;---------------------------------------------------
 ; FUNCION REPRESENTACION
 ;---------------------------------------------------
-;(newAdds idAdd autor permisos fecha estado reportes votos contenido)
+;(newAdds idAdd autor permisos fecha estado contenido)
 ;ejemplo:(int date string string list)
 
 ; EJEMPLOS:
 ; '() doc de respuesta vacio
-; '(1 "Genesis" ("anime" "games") (11 09 09) #f 0 (0 0) "El mejor juego de todos es Life is Strange")
-; '(((6 "Naomi" ("anime" "games") (16 11 2020) #f 0 (0 0) "El mejor juego es God of War")
-;    (2 "Levy" ("series" "ejercicio") (08 07 13) #f 0 (0 0) "Debes hacer varias repeticiones con peso y comer mucho")).
+; '(1 "Genesis" 'w' (11 09 09) #f 0 (0 0) "El mejor juego de todos es Life is Strange")
+; '(((6 "Naomi"'c' (16 11 2020) #f 0 (0 0) "El mejor juego es God of War")
+;    (2 "Levy" 'r' (08 07 13) #f 0 (0 0) "Debes hacer varias repeticiones con peso y comer mucho")).
 
 ;---------------------------------------------------
 ; FUNCION CONSTRUCTOR
 ;---------------------------------------------------
 ; Función que permite crear una respuesta y la agrega a Stack.
-; Dominio: doc answers.
-; Recorrido: stack.
+; Dominio: doc add.
+; Recorrido: doc.
 (define (newAddDoc adds)
   (list adds)
   )
@@ -34,7 +34,7 @@
 ;---------------------------------------------------
 ; FUNCION PERTENENCIA
 ;---------------------------------------------------
-; Función que determina si una respuesta cumple con requisitos para ser una respuesta.
+; Función que determina si una respuesta cumple con requisitos para ser un add.
 ; Dominio: añadir(list)
 ; Recorrido: boolean.
 (define (Add? añadir)
@@ -48,7 +48,7 @@
                     (and (list? (add->date añadir)) (= 3 (length (add->date añadir))))
                     (boolean? (add->state añadir))
                     (integer? (add->report añadir))
-                    (and (list? (add->votes añadir)) (= 2 (length (add->votes añadir))))
+                    (and (list? (add->listi añadir)) (= 2 (length (add->listi añadir))))
                     (string? (add->content añadir))
                     )
                    #t
@@ -59,8 +59,8 @@
    )
  )
 
-; Función que determina si una respuesta es válida en el stack.
-; Dominio: stack.
+; Función que determina si una respuesta es válida en el doc.
+; Dominio: doc.
 ; Recorrido: boolean.
 (define (Adds? adds)
   (if (null? adds)
@@ -75,63 +75,63 @@
 ;---------------------------------------------------
 ; FUNCIONES SELECTORAS
 ;---------------------------------------------------
-; Función que retorna el id de una respuesta.
+; Función que retorna el id de un añadido.
 ; Dominio: añadir(list)
 ; Recorrido: number
 (define (add->id añadir)
   (car añadir)
   )
 
-; Función que retorna el autor de una respuesta.
+; Función que retorna el autor del añadido.
 ; Dominio: añadir(list)
 ; Recorrido: string
 (define (add->author añadir)
   (cadr añadir)
   )
 
-; Función que retorna las etiquetas de una respuesta.
+; Función que retorna los permisos.
 ; Dominio: añadir(list)
 ; Recorrido: list
 (define (add->permisos añadir)
   (caddr añadir)
   )
 
-; Función que retorna la fecha de una respuesta.
+; Función que retorna la fecha de unañadido.
 ; Dominio: añadir(list)
 ; Recorrido: date(list)
 (define (add->date añadir)
   (cadddr añadir)
   )
 
-; Función que retorna el estado de una respuesta.
+; Función que retorna el estado de unañanadido.
 ; Dominio: añadir(list)
 ; Recorrido: boolean
 (define (add->state añadir)
   (cadr (cdddr añadir))
   )
 
-; Función que retorna los reportes de una respuesta.
+; Función que retorna los reportes de un añadido.
 ; Dominio: añadir(list)
 ; Recorrido: number
 (define (add->report añadir)
   (caddr (cdddr añadir))
   )
 
-; Función que retorna la lista de votos de una respuesta.
+; Función que retorna la lista.
 ; Dominio: añadir(list)
 ; Recorrido: list
-(define (add->votes añadir)
+(define (add->listi añadir)
   (cadddr (cdddr añadir))
   )
 
-; Función que retorna el contenido de una respuesta.
+; Función que retorna el contenido .
 ; Dominio: añadir(list)
 ; Recorrido: string
 (define (add->content añadir)
   (cadr (cdddr (cdddr añadir)))
   )
 
-; Función que retorna el número de respuestas en el stack.
+; Función que retorna el número de añadidos.
 ; Dominio: stackAnswer
 ; Recorrido: añadir(list)
 (define (docAdd->AddsQ doc)

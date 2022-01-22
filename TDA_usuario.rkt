@@ -18,8 +18,8 @@
 ; Funcion que permite crear un usuario.
 ; Dominio: string x string x number
 ; Recorrido: user(list)
-(define (newUser user password reputation)
-  (list user password reputation)
+(define (newUser user password permiso)
+  (list user password permiso)
   )
 ;---------------------------------------------------
 ; FUNCION PERTENENCIA
@@ -69,15 +69,15 @@
 ; Función que retorna la reputación del usuario.
 ; Dominio: user(list)
 ; Recorrido: number
-(define (user->reputation user)
+(define (user->permiso user)
   (caddr user)
   )
 ;---------------------------------------------------
 ; FUNCIONES MODIFICADORES
 ;---------------------------------------------------
-; Función que agrega un usuario al stack.
-; Dominio: stackUsers(list) x addUser(list).
-; Recorrido: stackAc(list).
+; Función que agrega un usuario al doc.
+; Dominio: docUsers(list) x addUser(list).
+; Recorrido: docAc(list).
 (define (userDoc usersDoc addUser)
   (if (user? addUser)
     (if (null? usersDoc)
@@ -94,7 +94,7 @@
 ; OTRAS FUNCIONES
 ;---------------------------------------------------
 ; Función que comprueba si un usuario y contraseña son iguales.
-; Dominio: stackUsers(list)xstringxstring
+; Dominio: docUsers(list)xstringxstring
 ; Recorrido: user(list) 
 (define (userExist StackUsers username password)
   (if (null? StackUsers)
